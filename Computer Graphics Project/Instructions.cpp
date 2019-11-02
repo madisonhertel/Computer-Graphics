@@ -19,6 +19,7 @@ char instructions6[80];
 char instructions7[80];
 char instructions8[80];
 char instructions9[80];
+
 void instructions_test()
 {
 	glClearColor(0.0, 0.467, 0.765, 0.0);

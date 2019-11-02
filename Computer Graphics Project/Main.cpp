@@ -9,7 +9,7 @@
 #include <string.h>
 #include <math.h>
 #include "game.h"
-
+char health1[10] = "HEALTH";
 struct button
 {
 	int x; 
@@ -20,11 +20,13 @@ struct button
 	int highlighted; 
     char* label; 
 };
+
 typedef struct button button;
 
 char buffer[20];
 char escape[20]; 
 char fin_name[30];
+char turtle_file[20] = "turtle.txt";
  char start1[10] = "Start";
  char instructions1[15] = "Instructions";
  const unsigned char start2[10] = "Start";
@@ -34,6 +36,7 @@ button start = { -5.5, -2.5, 10, 3, 0, 0, start1 };
 button instructions = { -5.5, -6.0, 10, 3, 0, 0, instructions1 };
 bool highlight = false;
 bool mainscreen_active = true; 
+bool start_click = false; 
 
 void ButtonDraw(button *b)
 {
@@ -95,6 +98,7 @@ void ButtonDraw(button *b)
 		drawStrokeText(instructions1, -4.0, -5.5, 0, 80.0);
 	}
 }
+
 void myinit()
 {
 	glClearColor(0.0, 0.467, 0.765, 0.0);
@@ -149,6 +153,7 @@ void bubbles2(void)
 
 	glEnd();
 }
+
 void render(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -166,14 +171,23 @@ void render(void)
 	drawStrokeText(buffer, -7.5, 8.5, 0, 80.0);
 	ButtonDraw(&start);
 	ButtonDraw(&instructions);
-	strcpy_s(fin_name, "Shark_fin.txt");
-	drawPolyline();
+	strcpy_s(fin_name, "Shark_outline.txt");
+	glPushMatrix();
+	translate2D(-4, 5);
+	drawPolyline(fin_name, 0.67, 0.67, 0.67);
+	shade_shark();
+	glPopMatrix();
+	glPushMatrix();
+	translate2D(3, 2);
+	scale2D(0.3, 0.3, 0);
+	drawPolyline(turtle_file, 0.23,0.43, 0.13);
+	glPopMatrix();
 	glPushMatrix();
 	for (int num_bubble = 0; num_bubble < 100; num_bubble++)
 	{
 		
 		bubbles();
-		Sleep(2);
+		Sleep(1);
 		translate2D(rand() % 10 , rand() %8); 
 		
 	}
@@ -183,7 +197,7 @@ void render(void)
 	{
 
 		bubbles2();
-		Sleep(2);
+		Sleep(1);
 		translate2D(rand() % 10, rand() % 5);
 
 	}
@@ -267,6 +281,13 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 				mainscreen_active = false;
 
 			}
+
+			if (mouseX > 200 && mouseX < 594 && y > 298 && y < 330)
+			{
+				start_click = true;
+				mainscreen_active = false;
+
+			}
 			
 		}
 
@@ -276,6 +297,14 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 	{
 		instructions_test();
 		mainscreen_active = false;
+	}
+
+	if (start_click == true)
+	{
+		start_up();
+		mainscreen_active = false; 
+		
+
 	}
 	
 }

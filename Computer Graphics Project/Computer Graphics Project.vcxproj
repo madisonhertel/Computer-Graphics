@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="characters.cpp" />
+    <ClCompile Include="game_play.cpp" />
     <ClCompile Include="Instructions.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>

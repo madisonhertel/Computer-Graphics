@@ -21,6 +21,12 @@
     <ClCompile Include="Instructions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="game_play.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="characters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
