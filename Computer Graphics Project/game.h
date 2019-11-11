@@ -6,12 +6,13 @@
 #include <fstream>
 #include "string.h"
 #include <stdio.h>
+
 extern char health1[10];
 using namespace std;
+
 void instructions_test();
 void shade_shark();
 void start_up();
-
 
 static void drawStrokeText(char *text,  int x,  int y,  int z, float scale)
 {
@@ -126,6 +127,55 @@ static void drawHealthBar(int health)
 	drawStrokeText(health1, 6.5, 9.95, 1, 260);
 }
 
+static void shade_seaweed()
+{
+	glColor3f(0.23, 0.43, 0.13);
+	glBegin(GL_POLYGON);
+	glVertex2f(2.797f, -0.672f);
+	glVertex2f(2.916f, -0.663f);
+	glVertex2f(2.656f, 0.531f);
+	glVertex2f(2.739f, 0.541f);
+	glVertex2f(2.817f, 0.016f);
+	glVertex2f(2.858f, -0.295f);
+	glEnd();
 
+	glColor3f(0.23, 0.43, 0.13);
+	glBegin(GL_POLYGON);
+	glVertex2f(3.108f, -0.761f);
+	glVertex2f(3.258f, -0.760f);
+	glVertex2f(3.065f, 0.03f);
+	glVertex2f(3.195f, 0);
+	glEnd();
+
+	glColor3f(0.23, 0.43, 0.13);
+	glBegin(GL_POLYGON);
+	glVertex2f(3.065f, 0.03f);
+	glVertex2f(3.195f, 0.0f);
+	glVertex2f(3.559f, 0.77f);
+	glVertex2f(3.44f, 0.784f);
+	glEnd();
+
+	glColor3f(0.23, 0.43, 0.13);
+	glBegin(GL_POLYGON);
+	glVertex2f(3.44f, 0.784f);
+	glVertex2f(3.559f, 0.77f);
+	glVertex2f(3.509f, 1.719f);
+	glEnd();
+
+	glColor3f(0.23, 0.43, 0.13);
+	glBegin(GL_POLYGON);
+	glVertex2f(3.346f, -0.73f);
+	glVertex2f(3.195f, 0.0f);
+	glVertex2f(3.239f, 0.09f);
+	glVertex2f(3.47f, -0.622f);
+	glEnd();
+
+	glColor3f(0.10, 0.43, 0.13);
+	glBegin(GL_POLYGON);
+	glVertex2f(3.53f,-0.878f);
+	glVertex2f(3.397f, -0.792f);
+	glVertex2f(4.835f, 1.496f);
+	glEnd();
+}
 
 

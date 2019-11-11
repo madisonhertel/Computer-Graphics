@@ -9,6 +9,7 @@
 #include <string.h>
 #include <math.h>
 #include "game.h"
+
 char health1[10] = "HEALTH";
 struct button
 {
@@ -27,6 +28,7 @@ char buffer[20];
 char escape[20]; 
 char fin_name[30];
 char turtle_file[20] = "turtle.txt";
+char seaweed[20] = "seaweed.txt";
  char start1[10] = "Start";
  char instructions1[15] = "Instructions";
  const unsigned char start2[10] = "Start";
@@ -101,7 +103,7 @@ void ButtonDraw(button *b)
 
 void myinit()
 {
-	glClearColor(0.0, 0.467, 0.765, 0.0);
+	glClearColor(0.369, 0.90, 1.0, 0.0);
 	glEnable(GL_LIGHT0);
 }
 
@@ -121,7 +123,7 @@ void bubbles(void)
 {
 	const float deg = 3.14159 / 180;
 	float radius = 0.6f;
-	glColor3f(0.6f, 1.0f, 1.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);
 	glLineWidth(4.0);
 	glBegin(GL_LINE_LOOP);
 
@@ -140,7 +142,7 @@ void bubbles2(void)
 {
 	const float deg = 3.14159 / 180;
 	float radius = 0.2f;
-	glColor3f(0.8f, 1.0f, 1.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);
 	glLineWidth(4.0);
 	glBegin(GL_LINE_LOOP);
 
@@ -183,6 +185,16 @@ void render(void)
 	drawPolyline(turtle_file, 0.23,0.43, 0.13);
 	glPopMatrix();
 	glPushMatrix();
+	translate2D(-12, -9);
+	drawPolyline(seaweed, 0.23, 0.43, 0.13);
+	shade_seaweed();
+	glPopMatrix();
+	glPushMatrix();
+	translate2D(5, -9);
+	drawPolyline(seaweed, 0.23, 0.43, 0.13);
+	shade_seaweed();
+	glPopMatrix();
+	glPushMatrix();
 	for (int num_bubble = 0; num_bubble < 100; num_bubble++)
 	{
 		
@@ -193,6 +205,7 @@ void render(void)
 	}
 	glPopMatrix();
 	glPushMatrix();
+
 	for (int num_bubble = 0; num_bubble < 100; num_bubble++)
 	{
 
@@ -220,6 +233,7 @@ void myKeyboard(unsigned char key, int x, int y)
 	case 'b':
 		go_back();
 		instructions_clicked = false; 
+		start_click = false;
 		mainscreen_active = true;
 		break;
 	}
@@ -275,22 +289,27 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 	{
 		if (state == GLUT_DOWN)
 		{
-			if (mouseX > 199 && mouseX < 597 && y > 121 && y < 210)
+			if (y > 121 && y < 210)
 			{
-				instructions_clicked = true;
-				mainscreen_active = false;
+				if (mouseX > 199 && mouseX < 597 && mainscreen_active == true)
+				{
+					instructions_clicked = true;
+					mainscreen_active = false;
+					printf("instructions\n");
+				}
 
 			}
 
-			if (mouseX > 200 && mouseX < 594 && y > 298 && y < 330)
+			if (y > 240 && y < 335)
 			{
-				start_click = true;
-				mainscreen_active = false;
-
+				if (mouseX > 200 && mouseX < 594 && mainscreen_active == true)
+				{
+					start_click = true;
+					mainscreen_active = false;
+					printf("start\n");
+				}
 			}
-			
 		}
-
 	}
 
 	if (instructions_clicked ==  true)
