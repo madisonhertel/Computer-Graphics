@@ -24,6 +24,8 @@ void start_up()
 	scale2D(0.3, 0.3, 0);
 	rotate2D(-22.0);
 	drawPolyline(turtle_file, 0.23, 0.43, 0.13);
+	shade_turtle();
 	glPopMatrix();
+	//shade_turtle();
 	glutSwapBuffers();
 }

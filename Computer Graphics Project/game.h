@@ -4,14 +4,16 @@
 #endif
 #include <GL/GL.h>
 #include <fstream>
+#include <iostream>
 #include "string.h"
 #include <stdio.h>
 extern char health1[10];
 using namespace std;
 void instructions_test();
 void shade_shark();
+void shade_turtle();
 void start_up();
-
+using namespace std;
 
 static void drawStrokeText(char *text,  int x,  int y,  int z, float scale)
 {
@@ -36,7 +38,8 @@ static void go_back()
 
 static void translate2D(float x, float y)
 {
-	glTranslatef(x, y, 0);
+	//cout << "translating X: " << x << " Y: " << y << "\n\r";
+	glTranslatef(x, y, 1);
 }
 
 static void rotate2D(float angle)
@@ -53,9 +56,11 @@ static void scale2D(float x, float y, float z)
 
 static void drawPolyline(char *name, float r, float g, float b)
 {
-	char fileName[20]; 
+	char fileName[20];
+
 	strcpy_s(fileName, name);
 	fstream inStream;
+	cout << "drawing" << fileName << "\n\r";
 	inStream.open(fileName, ios::in); //open the file
 	if (inStream.fail())
 		return;
@@ -77,6 +82,7 @@ static void drawPolyline(char *name, float r, float g, float b)
 		
 		}
 		glEnd();
+		//glFlush();
 
 	}
 	inStream.close();

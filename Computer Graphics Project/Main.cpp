@@ -9,16 +9,31 @@
 #include <string.h>
 #include <math.h>
 #include "game.h"
+#include <iostream>
+#include <fstream>
+
+using namespace std;
 char health1[10] = "HEALTH";
+
 struct button
 {
 	int x; 
 	int y; 
-	int w; 
-	int h; 
-	int state; 
-	int highlighted; 
-    char* label; 
+	int w;
+	int h;
+	int state;
+	int highlighted;
+    char* label;
+};
+
+class Point2
+{
+public:
+	float x, y;
+	void set(float dx, float dy) { x = dx; y = dy; }
+	void set(Point2& p) { x = p.x; y = p.y; }
+	Point2(float xx, float yy) { x = xx; y = yy; }
+	Point2() { x = y = 0; }
 };
 
 typedef struct button button;
@@ -27,16 +42,18 @@ char buffer[20];
 char escape[20]; 
 char fin_name[30];
 char turtle_file[20] = "turtle.txt";
- char start1[10] = "Start";
- char instructions1[15] = "Instructions";
- const unsigned char start2[10] = "Start";
+char start1[10] = "Start";
+char instructions1[15] = "Instructions";
+const unsigned char start2[10] = "Start";
 const unsigned char instructions2[15] = "Instructions";
- bool instructions_clicked = false; 
+bool instructions_clicked = false; 
 button start = { -5.5, -2.5, 10, 3, 0, 0, start1 };
 button instructions = { -5.5, -6.0, 10, 3, 0, 0, instructions1 };
 bool highlight = false;
 bool mainscreen_active = true; 
-bool start_click = false; 
+bool start_click = false;
+Point2 prevPos;
+
 
 void ButtonDraw(button *b)
 {
@@ -180,9 +197,13 @@ void render(void)
 	glPushMatrix();
 	translate2D(3, 2);
 	scale2D(0.3, 0.3, 0);
-	drawPolyline(turtle_file, 0.23,0.43, 0.13);
+	drawPolyline(turtle_file, 0.23, 0.43, 0.13);
+	shade_turtle();
 	glPopMatrix();
+	//shade_turtle();
+	
 	glPushMatrix();
+
 	for (int num_bubble = 0; num_bubble < 100; num_bubble++)
 	{
 		
@@ -191,8 +212,10 @@ void render(void)
 		translate2D(rand() % 10 , rand() %8); 
 		
 	}
+
 	glPopMatrix();
 	glPushMatrix();
+
 	for (int num_bubble = 0; num_bubble < 100; num_bubble++)
 	{
 
@@ -203,6 +226,52 @@ void render(void)
 	}
 	glPopMatrix();
 	glutSwapBuffers();
+}
+
+void moveCharacter(float x, float y) {
+	cout << "Move X:" <<  x << ", Y:" << y << "\n\r";
+	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	drawWave();
+	drawHealthBar(1);
+	glPushMatrix();
+	x = prevPos.x + x;
+	y = prevPos.y + y;
+	translate2D(x, y);
+	scale2D(0.3, 0.3, 0);
+	rotate2D(-22.0);
+	drawPolyline(turtle_file, 0.23, 0.43, 0.13);
+	glPopMatrix();
+	glutSwapBuffers();
+	prevPos.set(x, y);
+}
+
+
+
+void SpecialInput(int key, int x, int y)
+{
+	switch (key)
+	{
+	case GLUT_KEY_LEFT:
+		cout << "left key\n\r";
+		moveCharacter(-0.5f, 0.0f);
+		break;
+
+	case GLUT_KEY_RIGHT:
+		cout << "right key\n\r";
+		moveCharacter(0.5f, 0.0f);
+		break;
+
+	case GLUT_KEY_DOWN:
+		cout << "down key \n\r";
+		moveCharacter(0.0f, -0.5f);
+		break;
+
+	case GLUT_KEY_UP:
+		cout << "up key \n\r";
+		moveCharacter(0.0f, 0.5f);
+		break;
+	}
 }
 
 void myKeyboard(unsigned char key, int x, int y)
@@ -224,6 +293,7 @@ void myKeyboard(unsigned char key, int x, int y)
 		break;
 	}
 }
+
 void highlighted1(button *b )
 {
 	if (highlight == true)
@@ -269,12 +339,14 @@ void myMouse(int mouseX, int mouseY)
 void mouse_click(int button, int state, int mouseX, int mouseY)
 {
 	int y = 600 - mouseY;
-	printf("%i %i\n", mouseX, y);
+	//printf("%i %i\n", mouseX, y);
+	
 	//Checks to see if the left mouse button is pressed down
 	if (button == GLUT_LEFT_BUTTON )
 	{
 		if (state == GLUT_DOWN)
 		{
+			cout << "Mouse X: " << mouseX << " Y:" << y << "\n\r";
 			if (mouseX > 199 && mouseX < 597 && y > 121 && y < 210)
 			{
 				instructions_clicked = true;
@@ -282,8 +354,9 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 
 			}
 
-			if (mouseX > 200 && mouseX < 594 && y > 298 && y < 330)
+			if (mouseX > 200 && mouseX < 594 && y > 240 && y < 330)
 			{
+				cout << "Start button clicked";
 				start_click = true;
 				mainscreen_active = false;
 
@@ -301,6 +374,7 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 
 	if (start_click == true)
 	{
+		prevPos.set(-8, -5);
 		start_up();
 		mainscreen_active = false; 
 		
@@ -318,11 +392,12 @@ int main(int argc, char* argv[])
 	glutInitWindowSize(800, 600);
 	glutInitWindowPosition(100, 100);
 	//Needed to initialize the rand() function from windows.h
-	srand(GetTickCount());
+	//srand(GetTickCount());
 	glutCreateWindow("Crush's Adventure");
 	glutDisplayFunc(render);
-	glutReshapeFunc(reshape);
+	//glutReshapeFunc(reshape);
 	glutKeyboardFunc(myKeyboard);
+	glutSpecialFunc(SpecialInput);
 	glutPassiveMotionFunc(myMouse);
 	glutMouseFunc(mouse_click);
 	myinit();

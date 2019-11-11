@@ -8,7 +8,7 @@
 #include <GL/glut.h>
 #include <string.h>
 #include "game.h"
-//using namespace std
+
 using namespace std;
 
 void shade_shark()
@@ -54,5 +54,27 @@ void shade_shark()
 	glVertex2f(-2.68, -0.54);
 	glEnd();
 
+
+}
+
+void shade_turtle() {
+	//cout << "Shading Turtle";
+	glPushMatrix();
+	//translate2D(3, 2);
+	scale2D(0.1, 0.1, 0);
+	glColor3f(0.73f, 0.36f, 0.17f);
+	glBegin(GL_POLYGON);
+	glVertex2f(83.0, 60.0);
+	glVertex2f(104.0, 59.0);
+	glVertex2f(95.0, 76.0);
+	glEnd();
+
+	glColor3f(0.73f, 0.32f, 0.17f);
+	glBegin(GL_POLYGON);
+	glVertex2f(118.0, 64.0);
+	glVertex2f(104.0, 59.0);
+	glVertex2f(95.0, 76.0);
+	glEnd();
+	glPopMatrix();
 
 }
