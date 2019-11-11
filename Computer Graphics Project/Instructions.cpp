@@ -22,7 +22,7 @@ char instructions9[80];
 
 void instructions_test()
 {
-	glClearColor(0.0, 0.467, 0.765, 0.0);
+	glClearColor(0.369, 0.90, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	strcpy_s(instructions2, "- Use the arrow keys to move the turtle");
 	strcpy_s(instructions3, "- Eat the pieces of algae for your health");
