@@ -1,5 +1,3 @@
-//libraries
-
 #include <windows.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -189,16 +187,16 @@ void render(void)
 	drawStrokeText(buffer, -7.5, 8.5, 0, 80.0);
 	ButtonDraw(&start);
 	ButtonDraw(&instructions);
-	strcpy_s(fin_name, "Shark_outline.txt");
+	//strcpy_s(fin_name, "Shark_outline.txt");
 	glPushMatrix();
 	translate2D(-4, 5);
-	drawPolyline(fin_name, 0.67, 0.67, 0.67);
+	//drawPolyline(fin_name, 0.67, 0.67, 0.67);
 	shade_shark();
 	glPopMatrix();
 	glPushMatrix();
 	translate2D(3, 2);
 	scale2D(0.3, 0.3, 0);
-	drawPolyline(turtle_file, 0.23, 0.43, 0.13);
+	//drawPolyline(turtle_file, 0.23, 0.43, 0.13);
 	shade_turtle();
 	glPopMatrix();
 	glPushMatrix();
@@ -211,6 +209,7 @@ void render(void)
 	drawPolyline(seaweed, 0.23, 0.43, 0.13);
 	shade_seaweed();
 	glPopMatrix();
+	/*
 	glPushMatrix();
 	for (int num_bubble = 0; num_bubble < 100; num_bubble++)
 	{
@@ -232,7 +231,7 @@ void render(void)
 		translate2D(rand() % 10, rand() % 5);
 
 	}
-	glPopMatrix();
+	glPopMatrix();*/
 	glutSwapBuffers();
 }
 
@@ -240,18 +239,34 @@ void moveCharacter(float x, float y) {
 	cout << "Move X:" <<  x << ", Y:" << y << "\n\r";
 	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
 	drawWave();
+	drawSky();
 	drawHealthBar(1);
+	glPushMatrix();
+	translate2D(-12, -9);
+	drawPolyline(seaweed, 0.23, 0.43, 0.13);
+	shade_seaweed();
+	glPopMatrix();
+	glPushMatrix();
+	translate2D(5, -9);
+	drawPolyline(seaweed, 0.23, 0.43, 0.13);
+	shade_seaweed();
+	glPopMatrix();
 	glPushMatrix();
 	x = prevPos.x + x;
 	y = prevPos.y + y;
-	translate2D(x, y);
-	scale2D(0.3, 0.3, 0);
-	rotate2D(-22.0);
-	drawPolyline(turtle_file, 0.23, 0.43, 0.13);
-	glPopMatrix();
-	glutSwapBuffers();
-	prevPos.set(x, y);
+	if (x >= -11 && x <= 4 && y>=-9.5 && y<=2.5) { //Confines the entirety of the turtle to the current viewport
+		translate2D(x, y);
+		scale2D(0.25, 0.25, 0);
+		rotate2D(-22.0);
+		drawPolyline(turtle_file, 0.23, 0.43, 0.13);
+		shade_turtle();
+		glPopMatrix();
+		glutSwapBuffers();
+		prevPos.set(x, y);
+		cout << "Current Postion is X: " << prevPos.x << " Y: " << prevPos.y << "\n\r";
+	}
 }
 
 
@@ -395,6 +410,11 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 	
 }
 
+void idle() {
+	Sleep(500);
+	moveCharacter(0, 0);
+}
+
 int main(int argc, char* argv[])
 {
 	// initialize glut 
@@ -402,11 +422,12 @@ int main(int argc, char* argv[])
 	myinit();
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 	glutInitWindowSize(800, 600);
-	glutInitWindowPosition(100, 100);
+	glutInitWindowPosition(100, 0);
 	//Needed to initialize the rand() function from windows.h
 	//srand(GetTickCount());
 	glutCreateWindow("Crush's Adventure");
 	glutDisplayFunc(render);
+	glutIdleFunc(idle);
 	//glutReshapeFunc(reshape);
 	glutKeyboardFunc(myKeyboard);
 	glutSpecialFunc(SpecialInput);

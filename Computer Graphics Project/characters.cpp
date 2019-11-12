@@ -1,5 +1,3 @@
-//libraries
-
 #include <windows.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -644,21 +642,207 @@ void shade_shark()
 
 void shade_turtle() {
 	//cout << "Shading Turtle";
-	glPushMatrix();
-	//translate2D(3, 2);
-	scale2D(0.1, 0.1, 0);
-	glColor3f(0.73f, 0.36f, 0.17f);
-	glBegin(GL_POLYGON);
-	glVertex2f(83.0, 60.0);
-	glVertex2f(104.0, 59.0);
-	glVertex2f(95.0, 76.0);
+	glColor3f(0.73f, 0.36f, 0.17f); //Triangle just above bottom left leg
+	glBegin(GL_POLYGON);			//Beginning of Turtle Body
+	glVertex2f(8.3, 6.0);
+	glVertex2f(10.4, 5.9);
+	glVertex2f(9.5, 7.6);
 	glEnd();
 
 	glColor3f(0.73f, 0.32f, 0.17f);
 	glBegin(GL_POLYGON);
-	glVertex2f(118.0, 64.0);
-	glVertex2f(104.0, 59.0);
-	glVertex2f(95.0, 76.0);
+	glVertex2f(11.8, 6.4);
+	glVertex2f(10.4, 5.9);
+	glVertex2f(9.5, 7.6);
 	glEnd();
-	glPopMatrix();
+
+	glColor3f(0.81f, 0.53f, 0.37f);
+	glBegin(GL_POLYGON);
+	glVertex2f(8.0, 9.5);
+	glVertex2f(11.2, 9.3);
+	glVertex2f(9.5, 7.6);
+	glEnd();
+
+	glColor3f(0.64f, 0.45f, 0.31f);
+	glBegin(GL_POLYGON);
+	glVertex2f(11.8, 6.4);
+	glVertex2f(11.2, 9.3);
+	glVertex2f(9.5, 7.6);
+	glEnd();
+
+	glColor3f(0.54f, 0.45f, 0.31f);
+	glBegin(GL_POLYGON);
+	glVertex2f(11.8, 6.4);
+	glVertex2f(11.2, 9.3);
+	glVertex2f(14.4, 8.0);
+	glEnd();
+
+	glColor3f(0.74f, 0.45f, 0.31f);
+	glBegin(GL_POLYGON);
+	glVertex2f(11.2, 9.3);
+	glVertex2f(14.4, 8.0);
+	glVertex2f(13.1, 12.0);
+	glEnd();
+
+	glColor3f(0.64f, 0.55f, 0.31f);
+	glBegin(GL_POLYGON);
+	glVertex2f(13.1, 12.0);
+	glVertex2f(14.4, 8.0);
+	glVertex2f(15.7, 9.7);
+	glEnd();
+
+	glColor3f(0.64f, 0.35f, 0.31f);
+	glBegin(GL_POLYGON);
+	glVertex2f(13.1, 12.0);
+	glVertex2f(16.1, 11.6);
+	glVertex2f(15.7, 9.7);
+	glEnd();
+
+	glColor3f(0.64f, 0.45f, 0.41f);
+	glBegin(GL_POLYGON);
+	glVertex2f(13.1, 12.0);
+	glVertex2f(16.1, 11.6);
+	glVertex2f(14.4, 14.8);
+	glEnd();
+
+	glColor3f(0.64f, 0.45f, 0.21f);
+	glBegin(GL_POLYGON);
+	glVertex2f(13.1, 12.0);
+	glVertex2f(12.3, 15.4);
+	glVertex2f(14.4, 14.8);
+	glEnd();
+
+	glColor3f(0.74f, 0.45f, 0.31f);
+	glBegin(GL_POLYGON);
+	glVertex2f(13.1, 12.0);
+	glVertex2f(12.3, 15.4);
+	glVertex2f(10.4, 15.1);
+	glEnd();
+	
+	glColor3f(0.73f, 0.32f, 0.17f);
+	glBegin(GL_POLYGON);
+	glVertex2f(13.1, 12.0);
+	glVertex2f(9.8, 12.0);
+	glVertex2f(10.4, 15.1);
+	glEnd();
+
+	glColor3f(0.81f, 0.53f, 0.37f);
+	glBegin(GL_POLYGON);
+	glVertex2f(7.7, 14.0);
+	glVertex2f(9.8, 12.0);
+	glVertex2f(10.4, 15.1);
+	glEnd();
+
+	glColor3f(0.64f, 0.45f, 0.31f);
+	glBegin(GL_POLYGON);
+	glVertex2f(7.7, 14.0);
+	glVertex2f(9.8, 12.0);
+	glVertex2f(6.9, 11.5);
+	glEnd();
+	
+	glColor3f(0.64f, 0.35f, 0.31f);
+	glBegin(GL_POLYGON);
+	glVertex2f(7.7, 14.0);
+	glVertex2f(5.6, 12.1);
+	glVertex2f(6.9, 11.5);
+	glEnd();
+
+	glColor3f(0.64f, 0.45f, 0.41f);
+	glBegin(GL_POLYGON);
+	glVertex2f(5.0, 10.3);
+	glVertex2f(5.6, 12.1);
+	glVertex2f(6.9, 11.5);
+	glEnd();
+
+	glColor3f(0.64f, 0.45f, 0.21f);
+	glBegin(GL_POLYGON);
+	glVertex2f(5.0, 10.3);
+	glVertex2f(8.0, 9.5);
+	glVertex2f(6.9, 11.5);
+	glEnd();
+
+	glColor3f(0.74f, 0.45f, 0.31f);
+	glBegin(GL_POLYGON);
+	glVertex2f(5.0, 10.3);
+	glVertex2f(8.0, 9.5);
+	glVertex2f(4.9, 8.1);
+	glEnd();
+	///
+	glColor3f(0.76f, 0.53f, 0.37f);
+	glBegin(GL_POLYGON);
+	glVertex2f(8.0, 9.5);
+	glVertex2f(4.9, 8.1);
+	glVertex2f(5.6, 7.0);
+	glEnd();
+
+	glColor3f(0.54f, 0.35f, 0.31f);
+	glBegin(GL_POLYGON);
+	glVertex2f(8.0, 9.5);
+	glVertex2f(8.3, 6.0);
+	glVertex2f(5.6, 7.0);
+	glEnd();
+
+	glColor3f(0.44f, 0.45f, 0.31f);
+	glBegin(GL_POLYGON);
+	glVertex2f(8.0, 9.5);
+	glVertex2f(8.3, 6.0);
+	glVertex2f(9.5, 7.6);
+	glEnd();
+
+	glColor3f(0.54f, 0.45f, 0.51f);
+	glBegin(GL_POLYGON);
+	glVertex2f(8.0, 9.5);
+	glVertex2f(6.9, 11.5);
+	glVertex2f(9.8, 12.0);
+	glEnd();
+
+	glColor3f(0.64f, 0.55f, 0.31f);
+	glBegin(GL_POLYGON);
+	glVertex2f(8.0, 9.5);
+	glVertex2f(11.2, 9.3);
+	glVertex2f(9.8, 12.0);
+	glEnd();
+
+	glColor3f(0.64f, 0.45f, 0.31f);
+	glBegin(GL_POLYGON);
+	glVertex2f(13.1, 12.0);
+	glVertex2f(11.2, 9.3);
+	glVertex2f(9.8, 12.0);
+	glEnd(); ///END OF TURTLE BODY
+
+	glColor3f(0.97f, 0.91f, 0.85f);//Tail
+	glBegin(GL_POLYGON);
+	glVertex2f(4.1, 6.0);
+	glVertex2f(5.6, 7.0);
+	glVertex2f(4.9, 8.1);
+	glEnd();
+
+	//TURTLE BOTTOM LEFT LEG
+	glColor3f(0.21f, 0.29f, 0.17f);
+	glBegin(GL_POLYGON);
+	glVertex2f(4.7, 3.8);
+	glVertex2f(7.3, 5.0);
+	glVertex2f(7.5, 2.9);
+	glEnd();
+
+	glColor3f(0.32f, 0.38f, 0.22f);
+	glBegin(GL_POLYGON);
+	glVertex2f(9.8, 3.6);
+	glVertex2f(7.3, 5.0);
+	glVertex2f(7.5, 2.9);
+	glEnd();
+
+	glColor3f(0.67f, 0.63f, 0.39f);
+	glBegin(GL_POLYGON);
+	glVertex2f(9.8, 3.6);
+	glVertex2f(8.1, 4.6);
+	glVertex2f(9.1, 4.7);
+	glEnd();
+
+	glColor3f(0.41f, 0.46f, 0.30f);
+	glBegin(GL_POLYGON);
+	glVertex2f(9.8, 3.6);
+	glVertex2f(8.3, 6.0);
+	glVertex2f(10.4, 5.9);
+	glEnd();
 }

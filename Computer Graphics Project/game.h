@@ -61,7 +61,7 @@ static void drawPolyline(char *name, float r, float g, float b)
 	char fileName[20]; 
 	strcpy_s(fileName, name);
 	fstream inStream;
-	cout << "drawing" << fileName << "\n\r";
+	//cout << "drawing" << fileName << "\n\r";
 	inStream.open(fileName, ios::in); //open the file
 	if (inStream.fail())
 		return;
@@ -99,7 +99,7 @@ static void drawWave()
 		glBegin(GL_LINE_STRIP);
 		for (GLfloat x = -10.0; x < 10.0; x += 0.01)   // draw the plot
 		{
-			glVertex2f(2*x , 6+ sin(3.1415f * x));
+			glVertex2f(5*x , 6+ sin(3.1415f * x));
 
 			phi++;
 		}
@@ -110,6 +110,71 @@ static void drawWave()
 	}
 }
 
+static void drawSky() {
+	glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(0.72f, 0.91f, 0.97f); //(38%,62%,84%)(72%,91%,97%)
+	glRecti(-10, 7, 10, 10);
+		glBegin(GL_POLYGON);
+		int xrand = (rand() % 10)-5;
+		int yrand = rand() % 1;
+		cout << xrand;
+		for (GLfloat x = -10.0; x < -5.0; x += 0.01)   // draw the plot
+		{
+			glVertex2f(x+xrand, 7 - yrand*sin(3.1415f * 0.2 * x));
+		}
+		glEnd();
+		glBegin(GL_POLYGON);
+		xrand = (rand() % 10)-2.5;
+		for (GLfloat x = -10.0; x < -5.0; x += 0.01)  // draw the plot
+		{
+			glVertex2f(x + xrand, 7 - sin(3.1415f * 0.2 * x));
+		}
+		glEnd();
+		glBegin(GL_POLYGON);
+		xrand = (rand() % 10) + 2.5;
+		for (GLfloat x = -10.0; x < -5.0; x += 0.01)  // draw the plot
+		{
+			glVertex2f(x + xrand, 7 - sin(3.1415f * 0.2 * x));
+		}
+		glEnd();
+		glBegin(GL_POLYGON);
+		xrand = (rand() % 10) + 7.5;
+		yrand = rand() % 1;
+		for (GLfloat x = -10.0; x < -5.0; x += 0.01)  // draw the plot
+		{
+			glVertex2f(x + xrand, 7 - yrand * sin(3.1415f * 0.2 * x));
+		}
+		glEnd();
+		glBegin(GL_POLYGON);
+		xrand = (rand() % 10) + 12.5;
+		for (GLfloat x = -10.0; x < -5.0; x += 0.01)  // draw the plot
+		{
+			glVertex2f(x + xrand, 7 - sin(3.1415f * 0.2 * x));
+		}
+		glEnd();
+		glBegin(GL_POLYGON);
+		xrand = (rand() % 10) - 5;
+		for (GLfloat x = -5.0; x < 0.0; x += 0.01)   // draw the plot
+		{
+			glVertex2f(x + xrand, 7 + sin(3.1415f * 0.2 * x));
+		}
+		glEnd();
+		glBegin(GL_POLYGON);
+		xrand = (rand() % 10) - 5;
+		for (GLfloat x = 0.0; x < 5.0; x += 0.01)   // draw the plot
+		{
+			glVertex2f(x + xrand, 7 - sin(3.1415f * 0.2 * x));
+		}
+		glEnd();
+		glBegin(GL_POLYGON);
+		xrand = (rand() % 10) - 5;
+		for (GLfloat x = 5.0; x < 10.0; x += 0.01)   // draw the plot
+		{
+			glVertex2f(x + xrand, 7 + sin(3.1415f * 0.2 * x));
+		}
+		glEnd();
+
+}
 
 static void drawHealthBar(int health) 
 {
@@ -119,7 +184,6 @@ static void drawHealthBar(int health)
 	translate2D(0, -0.5);
 	glColor3f(0.8f, 0.1f, 0.0f);
 	glRecti(8, 8, 6, 9);
-	//glFlush();
 	glColor3f(0.0f, 0.0f, 0.0f);
 	glLineWidth(3.0);
 	glBegin(GL_LINE_LOOP);
