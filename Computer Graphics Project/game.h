@@ -16,7 +16,7 @@ void shade_shark();
 void shade_turtle();
 void game_screen();
 
-static void drawStrokeText(char *text,  int x,  int y,  int z, float scale)
+static void drawStrokeText(char *text,  double x,  double y,  double z, float scale)
 {
 	char *c;
 	glPushMatrix();
@@ -254,7 +254,7 @@ static void drawHealthBar(int health)
 	glVertex2i(6, 8);
 	glEnd();
 	glPopMatrix();
-	drawStrokeText(health1, 6.5, 9.95, 1, 260);
+	drawStrokeText(health1, 6.0, 9.0, 1, 260);
 }
 
 static void shade_seaweed()

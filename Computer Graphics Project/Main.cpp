@@ -9,10 +9,11 @@
 #include "game.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 
-using namespace std;
+
 char health1[10] = "HEALTH";
-
+using namespace std;
 struct button
 {
 	int x; 
@@ -51,9 +52,10 @@ button instructions = { -5.5, -6.0, 10, 3, 0, 0, instructions1 };
 bool highlight = false;
 bool mainscreen_active = true;
 bool start_click = false;
+bool paused = false;
 Point2 turtlePos;
 float xrand[9];
-
+int time = 0;
 int health = 1;
 
 void game_screen()
@@ -78,6 +80,11 @@ void game_screen()
 	drawPolyline(seaweed, 0.23, 0.43, 0.13);
 	shade_seaweed();
 	glPopMatrix();
+	strcpy_s(buffer, "Time: ");
+	glLineWidth(3.0);
+	drawStrokeText(buffer, -9.5, 8.3, 0, 120.0);
+	_itoa_s(time, buffer, 10);
+	drawStrokeText(buffer, -6.5, 8.3, 0, 120.0);
 	//glutSwapBuffers();
 }
 
@@ -138,8 +145,8 @@ void ButtonDraw(button *b)
 
 		glLineWidth(3);
 		glColor3f(0, 0, 1);
-		drawStrokeText(start1, -2.0, -1.5, 0, 80.0);
-		drawStrokeText(instructions1, -4.0, -5.5, 0, 80.0);
+		drawStrokeText(start1, -2.0, -1.0, 0, 80.0);
+		drawStrokeText(instructions1, -4.0, -5.0, 0, 80.0);
 	}
 }
 
@@ -161,8 +168,8 @@ void reshape(int w, int h)
 
 }
 
-static void Timer(int value) {
-	if (start_click == true) {
+static void waveTimer(int value) {
+	if (start_click == true && !paused) {
 		xrand[0] = (rand() % 5) - 15.0;
 		xrand[1] = (rand() % 5) - 12.5;
 		xrand[2] = (rand() % 5) - 10.0;
@@ -173,12 +180,20 @@ static void Timer(int value) {
 		xrand[7] = (rand() % 5) + 2.5;
 		xrand[8] = (rand() % 5) + 5.0;
 		glutPostRedisplay();
-		// 100 milliseconds
+		glutTimerFunc(500, waveTimer, 0);
 	}
 	
-	glutTimerFunc(1000, Timer, 0);
+	//glutTimerFunc(500, waveTimer, 0);
 }
 
+static void Timer(int value) {
+	if (start_click == true && !paused) {
+		time++;
+		glutPostRedisplay();
+		glutTimerFunc(1000, Timer, 0);
+	}
+	//glutTimerFunc(1000, Timer, 0);
+}
 
 void bubbles(void)
 {
@@ -229,8 +244,8 @@ void render(void)
 		strcpy_s(buffer, "Crush's Adventure");
 		strcpy_s(escape, "Press esc to exit");
 		glLineWidth(3.0);
-		drawStrokeText(escape, -7.80, -9.0, 0, 80.0);
-		drawStrokeText(buffer, -7.5, 8.5, 0, 80.0);
+		drawStrokeText(escape, -7.0, -9.0, 0, 80.0);
+		drawStrokeText(buffer, -7.0, 8.0, 0, 80.0);
 		ButtonDraw(&start);
 		ButtonDraw(&instructions);
 		//strcpy_s(fin_name, "Shark_outline.txt");
@@ -284,50 +299,18 @@ void render(void)
 	glPopMatrix();*/
 	glutSwapBuffers();
 }
-/*
+
 void moveCharacter(float x, float y) {
-	cout << "Move X:" <<  x << ", Y:" << y << "\n\r";
-	
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	//drawWave();
-	//drawSky();
-	drawHealthBar(1);
-	glPushMatrix();
-	translate2D(-12, -9);
-	drawPolyline(seaweed, 0.23, 0.43, 0.13);
-	shade_seaweed();
-	glPopMatrix();
-	glPushMatrix();
-	translate2D(5, -9);
-	drawPolyline(seaweed, 0.23, 0.43, 0.13);
-	shade_seaweed();
-	glPopMatrix();
-	glPushMatrix();
-	x = prevPos.x + x;
-	y = prevPos.y + y;
-	if (x >= -11 && x <= 4 && y>=-9.5 && y<=2.5) { //Confines the entirety of the turtle to the current viewport
-		translate2D(x, y);
-		scale2D(0.25, 0.25, 0);
-		rotate2D(-22.0);
-		drawPolyline(turtle_file, 0.23, 0.43, 0.13);
-		shade_turtle();
-		glPopMatrix();
-		glutSwapBuffers();
-		prevPos.set(x, y);
-		cout << "Current Postion is X: " << prevPos.x << " Y: " << prevPos.y << "\n\r";
+	if (start_click == true && !paused) {
+		cout << "Move X:" << x << ", Y:" << y << "\n\r";
+		x = turtlePos.x + x;
+		y = turtlePos.y + y;
+		if (x >= -11 && x <= 4 && y >= -9.5 && y <= 2.5) { //Confines the entirety of the turtle to the current viewport
+			turtlePos.set(x, y);
+			cout << "Current Postion is X: " << turtlePos.x << " Y: " << turtlePos.y << "\n\r";
+		}
+		glutPostRedisplay();
 	}
-}
-*/
-void moveCharacter(float x, float y) {
-	cout << "Move X:" << x << ", Y:" << y << "\n\r";
-	x = turtlePos.x + x;
-	y = turtlePos.y + y;
-	if (x >= -11 && x <= 4 && y >= -9.5 && y <= 2.5) { //Confines the entirety of the turtle to the current viewport
-		turtlePos.set(x, y);
-		cout << "Current Postion is X: " << turtlePos.x << " Y: " << turtlePos.y << "\n\r";
-	}
-	glutPostRedisplay();
 }
 
 void SpecialInput(int key, int x, int y)
@@ -336,22 +319,22 @@ void SpecialInput(int key, int x, int y)
 	{
 	case GLUT_KEY_LEFT:
 		cout << "left key\n\r";
-		moveCharacter(-0.5f, 0.0f);
+		moveCharacter(-0.25f, 0.0f);
 		break;
 
 	case GLUT_KEY_RIGHT:
 		cout << "right key\n\r";
-		moveCharacter(0.5f, 0.0f);
+		moveCharacter(0.25f, 0.0f);
 		break;
 
 	case GLUT_KEY_DOWN:
 		cout << "down key \n\r";
-		moveCharacter(0.0f, -0.5f);
+		moveCharacter(0.0f, -0.25f);
 		break;
 
 	case GLUT_KEY_UP:
 		cout << "up key \n\r";
-		moveCharacter(0.0f, 0.5f);
+		moveCharacter(0.0f, 0.25f);
 		break;
 	}
 }
@@ -365,7 +348,7 @@ void myKeyboard(unsigned char key, int x, int y)
 		break;
 	case 'i':
 		instructions_clicked = true;
-		mainscreen_active = false; 
+		mainscreen_active = false;
 		instructions_test();
 		break; 
 	case 'b':
@@ -373,6 +356,23 @@ void myKeyboard(unsigned char key, int x, int y)
 		instructions_clicked = false; 
 		start_click = false;
 		mainscreen_active = true;
+		time = 0;
+		break;
+	case 'p':
+		if (start_click == true) {
+			if (paused) {
+				paused = false;
+				cout << "unpause \n\r";
+				Timer(0);
+				waveTimer(0);
+			}
+			else if (!paused) {
+				paused = true;
+				Sleep(10);
+				cout << "Pause \n\r";
+			}
+			
+		}
 		break;
 	}
 }
@@ -422,7 +422,6 @@ void myMouse(int mouseX, int mouseY)
 void mouse_click(int button, int state, int mouseX, int mouseY)
 {
 	int y = 600 - mouseY;
-	//printf("%i %i\n", mouseX, y);
 	
 	//Checks to see if the left mouse button is pressed down
 	if (button == GLUT_LEFT_BUTTON )
@@ -435,6 +434,7 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 				{
 					instructions_clicked = true;
 					mainscreen_active = false;
+					instructions_test();
 					printf("instructions\n");
 				}
 
@@ -446,25 +446,16 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 				{
 					start_click = true;
 					mainscreen_active = false;
-					printf("start\n");
+					turtlePos.set(turtlePos.x, turtlePos.y);
+					waveTimer(0);
+					Timer(0);
+					game_screen();
 				}
 			}
 		}
 	}
 
-	if (instructions_clicked ==  true)
-	{
-		instructions_test();
-		mainscreen_active = false;
-	}
-
-	if (start_click == true)
-	{
-		turtlePos.set(-8, -5);
-		game_screen();
-		mainscreen_active = false; 
-		
-	}
+	
 	
 }
 
@@ -479,7 +470,6 @@ int main(int argc, char* argv[])
 	glutCreateWindow("Crush's Adventure");
 	glutDisplayFunc(render);
 
-	Timer(0);
 	glutKeyboardFunc(myKeyboard);
 	glutSpecialFunc(SpecialInput);
 	glutPassiveMotionFunc(myMouse);
