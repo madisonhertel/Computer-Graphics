@@ -1,5 +1,3 @@
-//libraries
-
 #include <windows.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -47,11 +45,11 @@ char start1[10] = "Start";
 char instructions1[15] = "Instructions";
 const unsigned char start2[10] = "Start";
 const unsigned char instructions2[15] = "Instructions";
-bool instructions_clicked = false; 
+bool instructions_clicked = false;
 button start = { -5.5, -2.5, 10, 3, 0, 0, start1 };
 button instructions = { -5.5, -6.0, 10, 3, 0, 0, instructions1 };
 bool highlight = false;
-bool mainscreen_active = true; 
+bool mainscreen_active = true;
 bool start_click = false;
 Point2 prevPos;
 Point2 prevPos1; 
@@ -63,6 +61,36 @@ float b;
 float c; 
 float d; 
 float e; 
+Point2 turtlePos;
+float xrand[9];
+
+int health = 1;
+
+void game_screen()
+{
+	glClearColor(0.31, 0.520, 0.77, 0.0); //(31%,52%,77%) old (0.369, 0.90, 1.0, 0.0)
+	drawSky(xrand);
+	drawHealthBar(health);
+	glPushMatrix();
+	translate2D(turtlePos.x , turtlePos.y);
+	scale2D(0.25, 0.25, 0);
+	rotate2D(-22.0);
+	//drawPolyline(turtle_file, 0.23, 0.43, 0.13);
+	shade_turtle();
+	glPopMatrix();
+	glPushMatrix();
+	translate2D(-12, -9);
+	drawPolyline(seaweed, 0.23, 0.43, 0.13);
+	shade_seaweed();
+	glPopMatrix();
+	glPushMatrix();
+	translate2D(5, -9);
+	drawPolyline(seaweed, 0.23, 0.43, 0.13);
+	shade_seaweed();
+	glPopMatrix();
+	//glutSwapBuffers();
+}
+
 
 void ButtonDraw(button *b)
 {
@@ -134,6 +162,73 @@ void myinit()
 void background()
 {
 	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluOrtho2D(0, w, h, 0);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+}
+
+static void Timer(int value) {
+	if (start_click == true) {
+		xrand[0] = (rand() % 5) - 15.0;
+		xrand[1] = (rand() % 5) - 12.5;
+		xrand[2] = (rand() % 5) - 10.0;
+		xrand[3] = (rand() % 5) - 7.5;
+		xrand[4] = (rand() % 5) - 5.0;
+		xrand[5] = (rand() % 5) - 2.5;
+		xrand[6] = (rand() % 5) + 0.0;
+		xrand[7] = (rand() % 5) + 2.5;
+		xrand[8] = (rand() % 5) + 5.0;
+		glutPostRedisplay();
+		// 100 milliseconds
+	}
+	
+	glutTimerFunc(1000, Timer, 0);
+}
+
+
+void bubbles(void)
+{
+	const float deg = 3.14159 / 180;
+	float radius = 0.6f;
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glLineWidth(4.0);
+	glBegin(GL_LINE_LOOP);
+
+	for (int c = 0; c < 360; c++)
+	{
+		//Changing from degrees to radians
+		float deginrad = c * deg;
+		glVertex2f(-10.5f + cos(deginrad)*radius, -9.0f + sin(deginrad)*radius);
+	}
+	
+	glEnd();
+	
+}
+
+void bubbles2(void)
+{
+	const float deg = 3.14159 / 180;
+	float radius = 0.2f;
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glLineWidth(4.0);
+	glBegin(GL_LINE_LOOP);
+
+	for (int c = 0; c < 360; c++)
+	{
+		//Changing from degrees to radians
+		float deginrad = c * deg;
+		glVertex2f(-11.5f + cos(deginrad)*0.2, -7.0f + sin(deginrad)*0.2);
+	}
+
+	glEnd();
+}
+
+void render(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	
@@ -262,6 +357,16 @@ void moveCharacter(float x, float y) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//move_background();
 	glPushMatrix();
+	translate2D(-12, -9);
+	drawPolyline(seaweed, 0.23, 0.43, 0.13);
+	shade_seaweed();
+	glPopMatrix();
+	glPushMatrix();
+	translate2D(5, -9);
+	drawPolyline(seaweed, 0.23, 0.43, 0.13);
+	shade_seaweed();
+	glPopMatrix();
+	glPushMatrix();
 	x = prevPos.x + x;
 	y = prevPos.y + y;
 	translate2D(x, y);
@@ -274,8 +379,6 @@ void moveCharacter(float x, float y) {
 	prevPos.set(x, y);
 }
 
-
-
 void SpecialInput(int key, int x, int y)
 {
 	switch (key)
@@ -283,25 +386,21 @@ void SpecialInput(int key, int x, int y)
 	case GLUT_KEY_LEFT:
 		cout << "left key\n\r";
 		moveCharacter(-0.5f, 0.0f);
-		//move_background(0.5f, 0.0f);
 		break;
 
 	case GLUT_KEY_RIGHT:
 		cout << "right key\n\r";
 		moveCharacter(0.5f, 0.0f);
-		//move_background(-0.5f, 0.0f);
 		break;
 
 	case GLUT_KEY_DOWN:
 		cout << "down key \n\r";
 		moveCharacter(0.0f, -0.5f);
-		//move_background(0, 0);
 		break;
 
 	case GLUT_KEY_UP:
 		cout << "up key \n\r";
 		moveCharacter(0.0f, 0.5f);
-		//move_background(0, 0);
 		break;
 	}
 }
@@ -418,7 +517,6 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 		
 		mainscreen_active = false; 
 		
-
 	}
 	
 }
@@ -427,7 +525,8 @@ int main(int argc, char* argv[])
 {
 	// initialize glut 
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+	myinit();
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 	glutInitWindowSize(800, 600);
 	glutInitWindowPosition(100, 100);
 	//Needed to initialize the rand() function from windows.h
