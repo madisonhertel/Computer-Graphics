@@ -22,6 +22,7 @@ void move_background();
 using namespace std;
 void game_screen();
 
+
 static void move_fish();
 void shade_fish2();
 

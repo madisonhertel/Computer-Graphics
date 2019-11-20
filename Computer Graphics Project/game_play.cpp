@@ -13,12 +13,14 @@
 using namespace std;
 extern char turtle_file[20];
 extern char seaweed[20];
-int health = 1; 
+extern float xrand[9];
+//int health = 1; 
 float a1; 
 float b1; 
 float c1;
 float d1;
 int i = 0;
+int health = 1;
 class Point3
 {
 public:
@@ -35,15 +37,13 @@ Point3 prevPos2;
 
 void move_background()
 {
-	for (int j = 0; j < 1000; j += 0.1)
-	{
-		glClearColor(0.369, 0.90, 1.0, 0.0);
+	
+	    glClearColor(0.31, 0.520, 0.77, 0.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		drawWave();
 		sand();
 		drawHealthBar(health);
-
+		drawSky(xrand);
+		printf("xrand is: %f\n", xrand[0]);
 
 		glPushMatrix();
 
@@ -71,37 +71,7 @@ void move_background()
 		shade_turtle();
 		glPopMatrix();
 		glutSwapBuffers();
-	}
-
-}
-
-void start_up()
-{
-	glClearColor(0.369, 0.90, 1.0, 0.0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	printf("Start screen on\n");
-	drawWave();
-	sand();
-	drawHealthBar(health);
-	glPushMatrix();
-	translate2D(-12, -9);
-	drawPolyline(seaweed, 0.23, 0.43, 0.13);
-	shade_seaweed();
-	glPopMatrix();
-	glPushMatrix();
-	translate2D(5, -9);
-	drawPolyline(seaweed, 0.23, 0.43, 0.13);
-	shade_seaweed();
-	glPopMatrix();
-	prevPos1.set(-12, -9);
-	prevPos2.set(5, -9);
-	glPushMatrix();
-	translate2D(-8, -5);
-	scale2D(0.3, 0.3, 0);
-	rotate2D(-22.0);
-	drawPolyline(turtle_file, 0.23, 0.43, 0.13);
-	shade_turtle();
-	glPopMatrix();
 	
-	glutSwapBuffers();
+
 }
+
