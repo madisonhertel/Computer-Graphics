@@ -54,7 +54,15 @@ bool highlight = false;
 bool mainscreen_active = true; 
 bool start_click = false;
 Point2 prevPos;
-
+Point2 prevPos1; 
+Point2 prevPos2; 
+float num_fish;
+float value = 0.0; 
+float a; 
+float b; 
+float c; 
+float d; 
+float e; 
 
 void ButtonDraw(button *b)
 {
@@ -120,128 +128,139 @@ void ButtonDraw(button *b)
 void myinit()
 {
 	glClearColor(0.369, 0.90, 1.0, 0.0);
-	glEnable(GL_LIGHT0);
+	glOrtho(-10, 10, -10, 10, -1, 1);
 }
 
-void reshape(int w, int h)
+void background()
 {
-
-	glViewport(0, 0, w, h);
+	
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D(0, w, h, 0);
+	
+	glOrtho(-10, 10, -10, 10, -1, 1);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
+	glPushMatrix();
+	scale2D(1.5, 1.5, 0);
+	translate2D(-5, -4.5);
+	rock();
+	glPopMatrix();
+
+	glPushMatrix();
+	scale2D(0.75, 0.75, 0);
+	translate2D(-14.5, -9);
+	rock();
+	glPopMatrix();
+
+		strcpy_s(buffer, "Crush's Adventure");
+		strcpy_s(escape, "Press esc to exit");
+		glLineWidth(3.0);
+		drawStrokeText(escape, -7.80, -9.0, 0, 80.0);
+		drawStrokeText(buffer, -7.5, 8.5, 0, 80.0);
+		ButtonDraw(&start);
+		ButtonDraw(&instructions);
+		strcpy_s(fin_name, "Shark_outline.txt");
+
+		glPushMatrix();
+		translate2D(-4, 5);
+		drawPolyline(fin_name, 0.67, 0.67, 0.67);
+		shade_shark();
+		glPopMatrix();
+
+		glPushMatrix();
+		translate2D(3, 2);
+		scale2D(0.3, 0.3, 0);
+		drawPolyline(turtle_file, 0.23, 0.43, 0.13);
+		shade_turtle();
+		glPopMatrix();
+
+		glPushMatrix();
+		translate2D(-12, -9);
+		drawPolyline(seaweed, 0.23, 0.43, 0.13);
+		shade_seaweed();
+		glPopMatrix();
+
+		glPushMatrix();
+		translate2D(5, -9);
+		drawPolyline(seaweed, 0.23, 0.43, 0.13);
+		shade_seaweed();
+		glPopMatrix();
+
+		
+		glPushMatrix();
+		b = prevPos1.x+0.008;
+		if (a < -10)
+		{
+			c = 0;
+		}
+
+		else if (a > -5)
+		{
+			c = prevPos1.y + 0.01;
+		}
+	
+		translate2D(b,c);
+		bubbles(0.1f);
+
+		glPopMatrix();
+		prevPos1.set(b,c);
+		
 }
 
-void bubbles(void)
+void move_fish()
 {
-	const float deg = 3.14159 / 180;
-	float radius = 0.6f;
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glLineWidth(4.0);
-	glBegin(GL_LINE_LOOP);
-
-	for (int c = 0; c < 360; c++)
-	{
-		//Changing from degrees to radians
-		float deginrad = c * deg;
-		glVertex2f(-10.5f + cos(deginrad)*radius, -9.0f + sin(deginrad)*radius);
-	}
+	glClear(GL_COLOR_BUFFER_BIT);
+	glClearColor(0.369, 0.90, 1.0, 0.3);
 	
-	glEnd();
-	
-}
+	    printf("Drawing background\n");
+		sand();
+		background();
+		
+		printf("move fish\n");
+		a = prevPos.x + 0.015;
+		glPushMatrix();
+		scale2D(2.0, 2.0, 0.0);
+		translate2D(a, 0.0);
+		shade_fish1();
+		glPopMatrix();
 
-void bubbles2(void)
-{
-	const float deg = 3.14159 / 180;
-	float radius = 0.2f;
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glLineWidth(4.0);
-	glBegin(GL_LINE_LOOP);
+		e = prevPos2.x + 0.025; 
+		glPushMatrix();
+		translate2D(e, 0.0);
+		shade_fish2();
+		glPopMatrix();
 
-	for (int c = 0; c < 360; c++)
-	{
-		//Changing from degrees to radians
-		float deginrad = c * deg;
-		glVertex2f(-11.5f + cos(deginrad)*0.2, -7.0f + sin(deginrad)*0.2);
-	}
+		if (start_click == false && instructions_clicked == false)
+		{
+			glutPostRedisplay();
+		}
+		
+		if (a < 11.0)
+		{
+			prevPos.set(a, 0.0);
+			prevPos2.set(e, 0.0);
+		}
 
-	glEnd();
+		if (a > 11.0)
+		{
+			prevPos.set(-12, 3);
+			prevPos2.set(-11, 3);
+		}
 }
 
 void render(void)
-{
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-10, 10, -10, 10, -1, 1);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	
-	strcpy_s(buffer, "Crush's Adventure");
-	strcpy_s(escape, "Press esc to exit");
-	glLineWidth(3.0);
-	drawStrokeText(escape, -7.80, -9.0, 0, 80.0);
-	drawStrokeText(buffer, -7.5, 8.5, 0, 80.0);
-	ButtonDraw(&start);
-	ButtonDraw(&instructions);
-	strcpy_s(fin_name, "Shark_outline.txt");
-	glPushMatrix();
-	translate2D(-4, 5);
-	drawPolyline(fin_name, 0.67, 0.67, 0.67);
-	shade_shark();
-	glPopMatrix();
-	glPushMatrix();
-	translate2D(3, 2);
-	scale2D(0.3, 0.3, 0);
-	drawPolyline(turtle_file, 0.23, 0.43, 0.13);
-	shade_turtle();
-	glPopMatrix();
-	glPushMatrix();
-	translate2D(-12, -9);
-	drawPolyline(seaweed, 0.23, 0.43, 0.13);
-	shade_seaweed();
-	glPopMatrix();
-	glPushMatrix();
-	translate2D(5, -9);
-	drawPolyline(seaweed, 0.23, 0.43, 0.13);
-	shade_seaweed();
-	glPopMatrix();
-	glPushMatrix();
-	for (int num_bubble = 0; num_bubble < 100; num_bubble++)
-	{
-		
-		bubbles();
-		Sleep(1);
-		translate2D(rand() % 10 , rand() %8); 
-		
-	}
-
-	glPopMatrix();
-	glPushMatrix();
-
-	for (int num_bubble = 0; num_bubble < 100; num_bubble++)
-	{
-
-		bubbles2();
-		Sleep(1);
-		translate2D(rand() % 10, rand() % 5);
-
-	}
-	glPopMatrix();
+{	
+	move_fish();
 	glutSwapBuffers();
+	
 }
 
 void moveCharacter(float x, float y) {
 	cout << "Move X:" <<  x << ", Y:" << y << "\n\r";
-	
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	drawWave();
-	drawHealthBar(1);
+	//move_background();
 	glPushMatrix();
 	x = prevPos.x + x;
 	y = prevPos.y + y;
@@ -249,6 +268,7 @@ void moveCharacter(float x, float y) {
 	scale2D(0.3, 0.3, 0);
 	rotate2D(-22.0);
 	drawPolyline(turtle_file, 0.23, 0.43, 0.13);
+	shade_turtle();
 	glPopMatrix();
 	glutSwapBuffers();
 	prevPos.set(x, y);
@@ -263,21 +283,25 @@ void SpecialInput(int key, int x, int y)
 	case GLUT_KEY_LEFT:
 		cout << "left key\n\r";
 		moveCharacter(-0.5f, 0.0f);
+		//move_background(0.5f, 0.0f);
 		break;
 
 	case GLUT_KEY_RIGHT:
 		cout << "right key\n\r";
 		moveCharacter(0.5f, 0.0f);
+		//move_background(-0.5f, 0.0f);
 		break;
 
 	case GLUT_KEY_DOWN:
 		cout << "down key \n\r";
 		moveCharacter(0.0f, -0.5f);
+		//move_background(0, 0);
 		break;
 
 	case GLUT_KEY_UP:
 		cout << "up key \n\r";
 		moveCharacter(0.0f, 0.5f);
+		//move_background(0, 0);
 		break;
 	}
 }
@@ -299,6 +323,7 @@ void myKeyboard(unsigned char key, int x, int y)
 		instructions_clicked = false; 
 		start_click = false;
 		mainscreen_active = true;
+		move_fish();
 		break;
 	}
 }
@@ -308,12 +333,14 @@ void highlighted1(button *b )
 	if (highlight == true)
 	{
 		b->highlighted = 1;
+		
 		glutPostRedisplay();
 	}
 
 	else if (highlight == false)
 	{
 		b->highlighted = 0; 
+		
 		glutPostRedisplay();
 	}
 }
@@ -388,6 +415,7 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 	{
 		prevPos.set(-8, -5);
 		start_up();
+		
 		mainscreen_active = false; 
 		
 
@@ -399,20 +427,23 @@ int main(int argc, char* argv[])
 {
 	// initialize glut 
 	glutInit(&argc, argv);
-	myinit();
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowSize(800, 600);
 	glutInitWindowPosition(100, 100);
 	//Needed to initialize the rand() function from windows.h
-	//srand(GetTickCount());
+	srand(GetTickCount());
 	glutCreateWindow("Crush's Adventure");
+	
 	glutDisplayFunc(render);
-	//glutReshapeFunc(reshape);
 	glutKeyboardFunc(myKeyboard);
 	glutSpecialFunc(SpecialInput);
 	glutPassiveMotionFunc(myMouse);
 	glutMouseFunc(mouse_click);
+
+	//initialization function
 	myinit();
+	prevPos.set(-12, 3);
+	prevPos2.set(-11, 3);
 	glutMainLoop();
 	
 }

@@ -13,9 +13,16 @@ using namespace std;
 
 void instructions_test();
 void shade_shark();
+void shade_fish1();
 void shade_turtle();
+void rock();
+void sand();
 void start_up();
+void move_background();
 using namespace std;
+
+static void move_fish();
+void shade_fish2();
 
 static void drawStrokeText(char *text,  int x,  int y,  int z, float scale)
 {
@@ -32,6 +39,41 @@ static void drawStrokeText(char *text,  int x,  int y,  int z, float scale)
 	glPopMatrix();
 	glFlush();
 }
+
+static void bubbles(float radius)
+{
+    glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	const float deg = 3.14159 / 180;
+	
+	glColor4f(1.0f, 1.0f, 1.0f, 0.55f);
+	glLineWidth(4.0);
+	glBegin(GL_POLYGON);
+
+	for (int c = 0; c < 360; c++)
+	{
+		//Changing from degrees to radians
+		float deginrad = c * deg;
+		glVertex2f(-13.25f + cos(deginrad)*radius, -0.5f + sin(deginrad)*radius);
+	}
+
+	glEnd();
+
+	glColor4f(1.0f, 1.0f, 1.0f, 0.85f);
+	glLineWidth(1.0);
+	glBegin(GL_LINE_LOOP);
+
+	for (int c = 0; c < 360; c++)
+	{
+		//Changing from degrees to radians
+		float deginrad = c * deg;
+		glVertex2f(-13.25f + cos(deginrad)*radius, -0.5f + sin(deginrad)*radius);
+	}
+
+	glEnd();
+
+}
+
 
 static void go_back()
 {

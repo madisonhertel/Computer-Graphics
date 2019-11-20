@@ -11,6 +11,217 @@
 
 using namespace std;
 
+void shade_fish1()
+{
+	//fish tail
+	glColor3f(0.6667f, 0.5215f, 0.54509f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.963, -0.074);
+	glVertex2f(-0.78, -0.38);
+	glVertex2f(-0.661, -0.331);
+
+	glEnd();
+
+	glColor3f(0.6313f, 0.4274f, 0.4509f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.4785, -0.487);
+	glVertex2f(-0.78, -0.38);
+	glVertex2f(-0.661, -0.331);
+
+	glEnd();
+
+	glColor3f(0.4705f, 0.47058f, 0.2784f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.4785, -0.487);
+	glVertex2f(-0.78, -0.38);
+	glVertex2f(-0.6573, -0.4936);
+
+	glEnd();
+
+	glColor3f(0.4784f, 0.30588f, 0.3372f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-1.086, -0.512);
+	glVertex2f(-0.78, -0.38);
+	glVertex2f(-0.6573, -0.4936);
+
+	glEnd();
+
+	//fish body
+
+
+	glColor3f(0.6196f, 0.5294f, 0.55686f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.661, -0.331);
+	glVertex2f(-0.4785, -0.487);
+	glVertex2f(-0.321, -0.057);
+	glEnd();
+
+	glColor3f(0.4235f, 0.3764f, 0.388f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.6573, -0.4936);
+	glVertex2f(-0.4785, -0.487);
+	glVertex2f(-0.3, -0.838);
+	glEnd();
+
+	glColor3f(0.5607f, 0.4784f, 0.513f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.4785, -0.487);
+	glVertex2f(-0.3, -0.838);
+	glVertex2f(0.1, -0.942);
+	glVertex2f(-0.059, -0.556);
+	glEnd();
+
+	glColor3f(0.93727f, 0.839f, 0.8745f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.4785, -0.487);
+	glVertex2f(-0.321, -0.057);
+	glVertex2f(0.106, -0.089);
+	glVertex2f(-0.059, -0.556);
+	glEnd();
+
+	glColor3f(0.6196f, 0.439f, 0.5803f);
+	glBegin(GL_POLYGON);
+	glVertex2f(0.353, -0.57);
+	glVertex2f(0.106, -0.089);
+	glVertex2f(-0.059, -0.556);
+	glEnd();
+
+	glColor3f(0.6196f, 0.439f, 0.5803f);
+	glBegin(GL_POLYGON);
+	glVertex2f(0.353, -0.57);
+	glVertex2f(0.1, -0.942);
+	glVertex2f(-0.059, -0.556);
+	glEnd();
+
+	//Fins
+	glColor3f(0.69f, 0.454f, 0.486f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.454, -0.566);
+	glVertex2f(-0.076, -0.558);
+	glVertex2f(-0.184, -0.44);
+	glEnd();
+
+	//Fins
+	glColor3f(0.69f, 0.454f, 0.486f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.454, -0.566);
+	glVertex2f(-0.076, -0.558);
+	glVertex2f(-0.09, -0.709);
+	glEnd();
+
+	glColor3f(0.8f, 0.454f, 0.486f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.342, 0.091);
+	glVertex2f(0.096, -0.0826);
+	glVertex2f(-0.268, -0.145);
+	glEnd();
+}
+void shade_fish2()
+{
+	//fish tail
+	glColor3f(0.6667f, 0.5215f, 0.54509f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.963, -0.074);
+	glVertex2f(-0.78, -0.38);
+	glVertex2f(-0.661, -0.331);
+
+	glEnd();
+
+	glColor3f(0.6313f, 0.4274f, 0.4509f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.4785, -0.487);
+	glVertex2f(-0.78, -0.38);
+	glVertex2f(-0.661, -0.331);
+
+	glEnd();
+
+	glColor3f(0.4705f, 0.47058f, 0.2784f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.4785, -0.487);
+	glVertex2f(-0.78, -0.38);
+	glVertex2f(-0.6573, -0.4936);
+
+	glEnd();
+
+	glColor3f(0.4784f, 0.30588f, 0.3372f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-1.086, -0.512);
+	glVertex2f(-0.78, -0.38);
+	glVertex2f(-0.6573, -0.4936);
+
+	glEnd();
+
+	//fish body
+
+
+	glColor3f(0.6196f, 0.5294f, 0.55686f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.661, -0.331);
+	glVertex2f(-0.4785, -0.487);
+	glVertex2f(-0.321, -0.057);
+	glEnd();
+
+	glColor3f(0.4235f, 0.3764f, 0.388f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.6573, -0.4936);
+	glVertex2f(-0.4785, -0.487);
+	glVertex2f(-0.3, -0.838);
+	glEnd();
+
+	glColor3f(0.5607f, 0.4784f, 0.513f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.4785, -0.487);
+	glVertex2f(-0.3, -0.838);
+	glVertex2f(0.1, -0.942);
+	glVertex2f(-0.059, -0.556);
+	glEnd();
+
+	glColor3f(0.93727f, 0.839f, 0.8745f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.4785, -0.487);
+	glVertex2f(-0.321, -0.057);
+	glVertex2f(0.106, -0.089);
+	glVertex2f(-0.059, -0.556);
+	glEnd();
+
+	glColor3f(0.6196f, 0.439f, 0.5803f);
+	glBegin(GL_POLYGON);
+	glVertex2f(0.353, -0.57);
+	glVertex2f(0.106, -0.089);
+	glVertex2f(-0.059, -0.556);
+	glEnd();
+
+	glColor3f(0.6196f, 0.439f, 0.5803f);
+	glBegin(GL_POLYGON);
+	glVertex2f(0.353, -0.57);
+	glVertex2f(0.1, -0.942);
+	glVertex2f(-0.059, -0.556);
+	glEnd();
+
+	//Fins
+	glColor3f(0.69f, 0.454f, 0.486f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.454, -0.566);
+	glVertex2f(-0.076, -0.558);
+	glVertex2f(-0.184, -0.44);
+	glEnd();
+
+	//Fins
+	glColor3f(0.69f, 0.454f, 0.486f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.454, -0.566);
+	glVertex2f(-0.076, -0.558);
+	glVertex2f(-0.09, -0.709);
+	glEnd();
+
+	glColor3f(0.8f, 0.454f, 0.486f);
+	glBegin(GL_POLYGON);
+	glVertex2f(-0.342, 0.091);
+	glVertex2f(0.096, -0.0826);
+	glVertex2f(-0.268, -0.145);
+	glEnd();
+}
+
 void shade_shark()
 {
 	glColor3f(0.0501f, 0.14f, 0.192f);
