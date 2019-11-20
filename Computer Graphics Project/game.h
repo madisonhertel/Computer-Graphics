@@ -14,8 +14,7 @@ using namespace std;
 void instructions_test();
 void shade_shark();
 void shade_turtle();
-void start_up();
-using namespace std;
+void game_screen();
 
 static void drawStrokeText(char *text,  int x,  int y,  int z, float scale)
 {
@@ -109,7 +108,7 @@ static void drawWave()
 
 	}
 }
-
+/*
 static void drawSky() {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glColor3f(0.72f, 0.91f, 0.97f); //(38%,62%,84%)(72%,91%,97%)
@@ -117,7 +116,7 @@ static void drawSky() {
 		glBegin(GL_POLYGON);
 		int xrand = (rand() % 10)-5;
 		int yrand = rand() % 1;
-		cout << xrand;
+		cout << "xrand = " << xrand << "\n\r";
 		for (GLfloat x = -10.0; x < -5.0; x += 0.01)   // draw the plot
 		{
 			glVertex2f(x+xrand, 7 - yrand*sin(3.1415f * 0.2 * x));
@@ -173,6 +172,68 @@ static void drawSky() {
 			glVertex2f(x + xrand, 7 + sin(3.1415f * 0.2 * x));
 		}
 		glEnd();
+
+}
+*/
+
+static void drawSky(float xrand[]) {
+	//glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(0.72f, 0.91f, 0.97f); //(38%,62%,84%)(72%,91%,97%)
+	glRecti(-10, 7, 10, 10);
+	glBegin(GL_POLYGON);
+	for (GLfloat x = 0.0; x < 5.0; x += 0.01)   // draw the plot
+	{
+		glVertex2f(x + xrand[0], 7 - sin(3.1415f * 0.2 * x));
+	}
+	glEnd();
+	glBegin(GL_POLYGON);
+	for (GLfloat x = 0.0; x < 5.0; x += 0.01)   // draw the plot
+	{
+		glVertex2f(x + xrand[1], 7 - sin(3.1415f * 0.2 * x));
+	}
+	glEnd();
+	glBegin(GL_POLYGON);
+	for (GLfloat x = 0.0; x < 5.0; x += 0.01)   // draw the plot
+	{
+		glVertex2f(x + xrand[2], 7 - sin(3.1415f * 0.2 * x));
+	}
+	glEnd();
+	glBegin(GL_POLYGON);
+	for (GLfloat x = 0.0; x < 5.0; x += 0.01)   // draw the plot
+	{
+		glVertex2f(x + xrand[3], 7 - sin(3.1415f * 0.2 * x));
+	}
+	glEnd();
+	glBegin(GL_POLYGON);
+	for (GLfloat x = 0.0; x < 5.0; x += 0.01)   // draw the plot
+	{
+		glVertex2f(x + xrand[4], 7 - sin(3.1415f * 0.2 * x));
+	}
+	glEnd();
+	glBegin(GL_POLYGON);
+	for (GLfloat x = 0.0; x < 5.0; x += 0.01)   // draw the plot
+	{
+		glVertex2f(x + xrand[5], 7 - sin(3.1415f * 0.2 * x));
+	}
+	glEnd();
+	glBegin(GL_POLYGON);
+	for (GLfloat x = 0.0; x < 5.0; x += 0.01)   // draw the plot
+	{
+		glVertex2f(x + xrand[6], 7 - sin(3.1415f * 0.2 * x));
+	}
+	glEnd();
+	glBegin(GL_POLYGON);
+	for (GLfloat x = 0.0; x < 5.0; x += 0.01)   // draw the plot
+	{
+		glVertex2f(x + xrand[7], 7 - sin(3.1415f * 0.2 * x));
+	}
+	glEnd();
+	glBegin(GL_POLYGON);
+	for (GLfloat x = 0.0; x < 5.0; x += 0.01)   // draw the plot
+	{
+		glVertex2f(x + xrand[8], 7 - sin(3.1415f * 0.2 * x));
+	}
+	glEnd();
 
 }
 

@@ -8,21 +8,21 @@
 #include <GL/glut.h>
 #include <string.h>
 #include "game.h"
+
 //using namespace std
 using namespace std;
 extern char turtle_file[20];
 extern char seaweed[20];
-int health = 1; 
+//int health = 1; 
 
-void start_up()
+
+/*void game_screen(double turtleX, double turtleY)
 {
 	glClearColor(0.31, 0.520, 0.77, 0.0); //(31%,52%,77%) old (0.369, 0.90, 1.0, 0.0)
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//drawWave();
 	drawSky();
 	drawHealthBar(health);
 	glPushMatrix();
-	translate2D(-8, -5);
+	translate2D(turtleX, turtleY);
 	scale2D(0.25, 0.25, 0);
 	rotate2D(-22.0);
 	drawPolyline(turtle_file, 0.23, 0.43, 0.13);
@@ -38,5 +38,5 @@ void start_up()
 	drawPolyline(seaweed, 0.23, 0.43, 0.13);
 	shade_seaweed();
 	glPopMatrix();
-	glutSwapBuffers();
-}
+	//glutSwapBuffers();
+}*/
