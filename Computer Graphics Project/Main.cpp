@@ -65,7 +65,7 @@ void game_screen()
 	translate2D(turtlePos.x , turtlePos.y);
 	scale2D(0.25, 0.25, 0);
 	rotate2D(-22.0);
-	drawPolyline(turtle_file, 0.23, 0.43, 0.13);
+	//drawPolyline(turtle_file, 0.23, 0.43, 0.13);
 	shade_turtle();
 	glPopMatrix();
 	glPushMatrix();
@@ -242,7 +242,7 @@ void render(void)
 		glPushMatrix();
 		translate2D(3, 2);
 		scale2D(0.3, 0.3, 0);
-		drawPolyline(turtle_file, 0.23, 0.43, 0.13);
+		//drawPolyline(turtle_file, 0.23, 0.43, 0.13);
 		shade_turtle();
 		glPopMatrix();
 		glPushMatrix();
