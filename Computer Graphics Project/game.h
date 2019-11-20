@@ -104,7 +104,7 @@ static void drawPolyline(char *name, float r, float g, float b)
 	char fileName[20]; 
 	strcpy_s(fileName, name);
 	fstream inStream;
-	//cout << "drawing" << fileName << "\n\r";
+	cout << "drawing" << fileName << "\n\r";
 	inStream.open(fileName, ios::in); //open the file
 	if (inStream.fail())
 		return;
