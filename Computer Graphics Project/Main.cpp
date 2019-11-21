@@ -65,16 +65,29 @@ float d;
 float e; 
 Point2 turtlePos;
 Point2 seaweedPos1; 
-Point2 seaweedPos2; 
+Point2 seaweedPos2;
 float xrand[9];
 int time = 0;
 int health = 1;
 
 void game_screen()
 {
-	glClearColor(0.31, 0.520, 0.77, 0.0); //(31%,52%,77%) old (0.369, 0.90, 1.0, 0.0)
+	glClearColor(0.369, 0.90, 1.0, 0.3);
+	//glClearColor(0.31, 0.520, 0.77, 0.0); //(31%,52%,77%) old (0.369, 0.90, 1.0, 0.0)
+
 	drawSky(xrand);
 	sand();
+	glPushMatrix();
+	scale2D(1.5, 1.5, 0);
+	translate2D(-5, -4.5);
+	rock();
+	glPopMatrix();
+
+	glPushMatrix();
+	scale2D(0.75, 0.75, 0);
+	translate2D(-14.5, -9);
+	rock();
+	glPopMatrix();
 	drawHealthBar(health);
 	glPushMatrix();
 	translate2D(turtlePos.x , turtlePos.y);
@@ -83,7 +96,6 @@ void game_screen()
 	//drawPolyline(turtle_file, 0.23, 0.43, 0.13);
 	shade_turtle();
 	glPopMatrix();
-
 	glPushMatrix();
 	translate2D(seaweedPos1.x, seaweedPos2.y);
 	drawPolyline(seaweed, 0.23, 0.43, 0.13);
@@ -99,9 +111,7 @@ void game_screen()
 	drawStrokeText(buffer, -9.5, 8.3, 0, 120.0);
 	_itoa_s(time, buffer, 10);
 	drawStrokeText(buffer, -6.5, 8.3, 0, 120.0);
-	//glutSwapBuffers();
 }
-
 
 void ButtonDraw(button *b)
 {
@@ -170,16 +180,6 @@ void myinit()
 	glOrtho(-10, 10, -10, 10, -1, 1);
 }
 
-void reshape(int w, int h)
-{
-	glViewport(0, 0, w, h);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluOrtho2D(0, w, h, 0);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-}
-
 static void waveTimer(int value) {
 	if (start_click == true && !paused) {
 		xrand[0] = (rand() % 5) - 15.0;
@@ -209,7 +209,7 @@ static void Timer(int value) {
 
 static void backgroundTimer(int value)
 {
-	if (start_click == true)
+	if (start_click == true && !paused)
 	{
 		seaweedPos1.set(seaweedPos1.x - 0.05, seaweedPos1.y);
 		seaweedPos2.set(seaweedPos2.x - 0.05, seaweedPos2.y);
@@ -228,75 +228,18 @@ void render(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	if (mainscreen_active == true) {
-		strcpy_s(buffer, "Crush's Adventure");
-		strcpy_s(escape, "Press esc to exit");
-		glLineWidth(3.0);
-		drawStrokeText(escape, -7.0, -9.0, 0, 80.0);
-		drawStrokeText(buffer, -7.0, 8.0, 0, 80.0);
-		ButtonDraw(&start);
-		ButtonDraw(&instructions);
-		//strcpy_s(fin_name, "Shark_outline.txt");
-		glPushMatrix();
-		translate2D(-4, 5);
-		//drawPolyline(fin_name, 0.67, 0.67, 0.67);
-		shade_shark();
-		glPopMatrix();
-		glPushMatrix();
-		translate2D(3, 2);
-		scale2D(0.3, 0.3, 0);
-		//drawPolyline(turtle_file, 0.23, 0.43, 0.13);
-		shade_turtle();
-		glPopMatrix();
-		glPushMatrix();
-		translate2D(-12, -9);
-		drawPolyline(seaweed, 0.23, 0.43, 0.13);
-		shade_seaweed();
-		glPopMatrix();
-		glPushMatrix();
-		translate2D(5, -9);
-		drawPolyline(seaweed, 0.23, 0.43, 0.13);
-		shade_seaweed();
-		glPopMatrix();
+		main_screen();
 	}
+
 	else if (start_click == true) {
 		game_screen();
 	}
-	/*
-	glPushMatrix();
-	for (int num_bubble = 0; num_bubble < 100; num_bubble++)
-	{
 
-		bubbles();
-		Sleep(1);
-		translate2D(rand() % 10 , rand() %8);
-
-	}
-
-	glPopMatrix();
-	glPushMatrix();
-
-	for (int num_bubble = 0; num_bubble < 100; num_bubble++)
-	{
-
-		bubbles2();
-		Sleep(1);
-		translate2D(rand() % 10, rand() % 5);
-
-	}
-	glPopMatrix();*/
 	glutSwapBuffers();
 }
 
-
-void background()
+void main_screen()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	
-	glOrtho(-10, 10, -10, 10, -1, 1);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
 	sand();
 	glPushMatrix();
 	scale2D(1.5, 1.5, 0);
@@ -367,77 +310,40 @@ void background()
 
 void move_fish()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0.369, 0.90, 1.0, 0.3);
 	
-	    printf("Drawing background\n");
-		sand();
-		background();
+	printf("Drawing background\n");
+	sand();
+	main_screen();
 		
-		printf("move fish\n");
-		a = prevPos.x + 0.015;
-		glPushMatrix();
-		scale2D(2.0, 2.0, 0.0);
-		translate2D(a, 0.0);
-		shade_fish1();
-		glPopMatrix();
+	printf("move fish\n");
+	a = prevPos.x + 0.015;
+	glPushMatrix();
+	scale2D(2.0, 2.0, 0.0);
+	translate2D(a, 0.0);
+	shade_fish1();
+	glPopMatrix();
 
-		e = prevPos2.x + 0.025; 
-		glPushMatrix();
-		translate2D(e, 0.0);
-		shade_fish2();
-		glPopMatrix();
+	e = prevPos2.x + 0.025; 
+	glPushMatrix();
+	translate2D(e, 0.0);
+	shade_fish2();
+	glPopMatrix();
 
-		if (start_click == false && instructions_clicked == false)
-		{
-			glutPostRedisplay();
-		}
+	if (start_click == false && instructions_clicked == false)
+	{
+		glutPostRedisplay();
+	}
 		
-		if (a < 11.0)
-		{
-			prevPos.set(a, 0.0);
-			prevPos2.set(e, 0.0);
-		}
+	if (a < 11.0)
+	{
+		prevPos.set(a, 0.0);
+		prevPos2.set(e, 0.0);
+	}
 
-	}
-	glPopMatrix();*/
-	glutSwapBuffers();
 }
-/*
-void moveCharacter(float x, float y) {
-	cout << "Move X:" <<  x << ", Y:" << y << "\n\r";
-	
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	//drawWave();
-	//drawSky();
-	drawHealthBar(1);
-	glPushMatrix();
-	translate2D(-12, -9);
-	drawPolyline(seaweed, 0.23, 0.43, 0.13);
-	shade_seaweed();
-	glPopMatrix();
-	glPushMatrix();
-	translate2D(5, -9);
-	drawPolyline(seaweed, 0.23, 0.43, 0.13);
-	shade_seaweed();
-	glPopMatrix();
-	glPushMatrix();
-	x = prevPos.x + x;
-	y = prevPos.y + y;
-	if (x >= -11 && x <= 4 && y>=-9.5 && y<=2.5) { //Confines the entirety of the turtle to the current viewport
-		translate2D(x, y);
-		scale2D(0.25, 0.25, 0);
-		rotate2D(-22.0);
-		drawPolyline(turtle_file, 0.23, 0.43, 0.13);
-		shade_turtle();
-		glPopMatrix();
-		glutSwapBuffers();
-		prevPos.set(x, y);
-		cout << "Current Postion is X: " << prevPos.x << " Y: " << prevPos.y << "\n\r";
-	}
-}
-*/
+
 void moveCharacter(float x, float y) {
 	if (start_click == true && !paused) {
 		cout << "Move X:" << x << ", Y:" << y << "\n\r";
@@ -490,11 +396,13 @@ void myKeyboard(unsigned char key, int x, int y)
 		instructions_test();
 		break; 
 	case 'b':
-		go_back();
+		//go_back();
 		instructions_clicked = false; 
 		start_click = false;
 		mainscreen_active = true;
 		time = 0;
+		paused = false;
+		glutPostRedisplay();
 		break;
 	case 'p':
 		if (start_click == true) {
@@ -506,7 +414,7 @@ void myKeyboard(unsigned char key, int x, int y)
 			}
 			else if (!paused) {
 				paused = true;
-				Sleep(10);
+				//Sleep(300);
 				cout << "Pause \n\r";
 			}
 			
@@ -606,10 +514,9 @@ int main(int argc, char* argv[])
 	glutInitWindowSize(800, 600);
 	glutInitWindowPosition(100, 100);
 	//Needed to initialize the rand() function from windows.h
-	srand(GetTickCount());
+
 	glutCreateWindow("Crush's Adventure");
 	glutDisplayFunc(render);
-
 	glutKeyboardFunc(myKeyboard);
 	glutSpecialFunc(SpecialInput);
 	glutPassiveMotionFunc(myMouse);
@@ -617,7 +524,6 @@ int main(int argc, char* argv[])
 
 	//initialization function
 	myinit();
-	//turtlePos.set(-12, 3);
 	prevPos2.set(-11, 3);
 	seaweedPos1.set(-12, -9);
 	seaweedPos2.set(5, -9);

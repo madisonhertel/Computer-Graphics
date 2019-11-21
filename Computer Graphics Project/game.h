@@ -17,7 +17,7 @@ void shade_fish1();
 void shade_turtle();
 void rock();
 void sand();
-void start_up();
+void main_screen();
 void move_background();
 using namespace std;
 void game_screen();
@@ -123,7 +123,7 @@ static void drawPolyline(char *name, float r, float g, float b)
 		for (int i = 0; i < numLines; i++)
 		{
 			inStream >> x >> y;
-			glVertex2f(x , y );
+			glVertex2f(x, y);
 		
 		}
 		glEnd();

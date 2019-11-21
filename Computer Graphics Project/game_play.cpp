@@ -20,7 +20,7 @@ float b1;
 float c1;
 float d1;
 int i = 0;
-int health = 1;
+
 class Point3
 {
 public:
@@ -41,7 +41,7 @@ void move_background()
 	    glClearColor(0.31, 0.520, 0.77, 0.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		sand();
-		drawHealthBar(health);
+		//drawHealthBar(health);
 		drawSky(xrand);
 		printf("xrand is: %f\n", xrand[0]);
 
