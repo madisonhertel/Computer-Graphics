@@ -11,13 +11,16 @@
 extern char health1[10];
 using namespace std;
 
+void timer_popupwindow();
+void popup_window2();
+void popup_window1();
 void instructions_test();
 void shade_shark();
 void shade_fish1();
 void shade_turtle();
 void rock();
 void sand();
-void start_up();
+void popup_pause();
 void move_background();
 using namespace std;
 void game_screen();
@@ -26,7 +29,7 @@ void game_screen();
 static void move_fish();
 void shade_fish2();
 
-static void drawStrokeText(char *text,  int x,  int y,  int z, float scale)
+static void drawStrokeText(char *text,  float x,  float y,  int z, float scale)
 {
 	char *c;
 	glPushMatrix();

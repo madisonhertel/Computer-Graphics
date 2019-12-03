@@ -9,6 +9,7 @@
 #include <string.h>
 #include "game.h"
 
+
 using namespace std;
 
 void rock()
@@ -72,10 +73,11 @@ void sand()
 	glVertex2f(-10, -9.31);
 	glEnd();
 
+	
 	glColor3f(0.870f, 0.82359f, 0.7176f);
 	glBegin(GL_POLYGON);
-	glVertex2f(-8.04, -9.985);
-	glVertex2f(-9.54, -8.72);
+	glVertex2f(-8.04, -10.0);
+	glVertex2f(-9.8, -8.5);
 	glVertex2f(-6.5, -9.0);
 	glEnd();
 
