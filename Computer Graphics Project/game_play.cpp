@@ -70,7 +70,7 @@ void move_background()
 		drawPolyline(turtle_file, 0.23, 0.43, 0.13);
 		shade_turtle();
 		glPopMatrix();
-		glutSwapBuffers();
+		//glutSwapBuffers();
 	
 
 }

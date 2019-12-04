@@ -19,6 +19,10 @@ void rock();
 void sand();
 void main_screen();
 void move_background();
+void checkCollision();
+void drawPlastic();
+void drawCircle();
+void death();
 using namespace std;
 void game_screen();
 
@@ -75,7 +79,6 @@ static void bubbles(float radius)
 	glEnd();
 
 }
-
 
 static void go_back()
 {
@@ -223,8 +226,9 @@ static void drawSky() {
 
 static void drawSky(float xrand[]) {
 	//glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(0.72f, 0.91f, 0.97f); //(38%,62%,84%)(72%,91%,97%)
+	glColor4f(0.72f, 0.91f, 0.97f, 0.95f); //(38%,62%,84%)(72%,91%,97%)
 	glRecti(-10, 7, 10, 10);
+	glColor4f(0.72f, 0.91f, 0.97f, 0.65f);
 	glBegin(GL_POLYGON);
 	for (GLfloat x = 0.0; x < 5.0; x += 0.01)   // draw the plot
 	{
@@ -282,21 +286,22 @@ static void drawSky(float xrand[]) {
 
 }
 
-static void drawHealthBar(int health) 
+static void drawHealthBar(double health) 
 {
 	int screenWidth = 20;
 	int screenHeight = 20;
 	glPushMatrix();
 	translate2D(0, -0.5);
+	double barsize = health + 6;
 	glColor3f(0.8f, 0.1f, 0.0f);
-	glRecti(8, 8, 6, 9);
+	glRectf(6, 8, barsize, 9);
 	glColor3f(0.0f, 0.0f, 0.0f);
 	glLineWidth(3.0);
 	glBegin(GL_LINE_LOOP);
-	glVertex2i(8, 8);
-	glVertex2i(8, 9);
 	glVertex2i(6, 9);
 	glVertex2i(6, 8);
+	glVertex2i(9, 8);
+	glVertex2i(9, 9);
 	glEnd();
 	glPopMatrix();
 	drawStrokeText(health1, 6.0, 9.0, 1, 260);
