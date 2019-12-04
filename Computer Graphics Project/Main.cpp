@@ -82,6 +82,7 @@ bool popup_window_active = false;
 bool shark_enter = false; 
 bool popupwindow5 = false;
 bool endpop5 = false;
+bool death_turtle = false;
 //Used for the positions of the turtle, pause, and background
 Point2 pausedPos;
 Point2 pausedScreenPos;
@@ -121,12 +122,13 @@ Point2 popupwindow4Pos;
 Point2 popupwindow5Pos;
 //variable used to generate random values used by the wave drawn on the screen 
 float xrand[9];
-int time = 190;
+int time = 0;
 float health = 3.0;
 
 //Creating pixmap for the popupwindow images
 //Creates 6 different pixmaps that can be used for 24 bit images
 RGBpixmap pix[6];
+RGBpixmap pix2[6];
 //instructions character strings
 extern char instructions2[80];
 extern char instructions3[80];
@@ -382,6 +384,20 @@ void game_screen()
 	popup_window3();
 	popup_window4();
 	popup_window5();
+
+	if (death_turtle == true)
+	{
+		cout << "YOU DIED!!";
+		paused = true;
+
+		glPixelZoom(0.75, 0.75);
+		glRasterPos2f(-10, -10);
+		pix[4].draw();
+		ButtonDraw(&exit_1);
+		drawStrokeText(exit1, -1.0, -6.4, 0, 120.0);
+		//glutPostRedisplay();
+		Sleep(10);
+	}
 	glutPostRedisplay();
 }
 
@@ -400,7 +416,7 @@ void checkCollision(){
 			if (health > 0.0)
 				health -= 0.2;
 			else if (health <= 0.0)
-				death();
+				death_turtle = true;
 		}
 	}
 
@@ -419,7 +435,10 @@ void checkCollision(){
 	}
 
 }
+void death()
+{
 
+}
 void drawPlastic() {
 	glLineWidth(3.0);
 	glColor4f(0.0f, 0.0f, 0.0f, 0.7f);
@@ -461,19 +480,6 @@ void drawCircle()
 	}
 
 }
-
-void death()
-{
-	cout << "YOU DIED!!";
-	paused = true;
-	glPixelZoom(0.75, 0.75);
-	glRasterPos2f(-10, -10);
-	pix[4].draw();
-	ButtonDraw(&exit_1);
-	drawStrokeText(exit1, -1.0, -6.4, 0, 120.0);
-	Sleep(10);
-}
-
 
 
 void initObjects() {
@@ -736,19 +742,19 @@ void move_debri() {
 
 	glPixelZoom(0.1, 0.1);
 	glRasterPos2f(debriPos[0].x, debriPos[0].y);
-	pix[5].draw();
+	pix2[5].draw();
 
 	glPixelZoom(0.08, 0.08);
 	glRasterPos2f(debriPos[1].x, debriPos[1].y);
-	pix[3].draw();
+	pix2[3].draw();
 	
 	glPixelZoom(0.1, 0.1);
 	glRasterPos2f(debriPos[2].x, debriPos[2].y);
-	pix[4].draw();
+	pix2[4].draw();
 	
 	glPixelZoom(0.1, 0.1);
 	glRasterPos2f(debriPos[3].x, debriPos[3].y);
-	pix[5].draw();
+	pix2[5].draw();
 
 	if(debriPos[0].x < - 11)
 		debriPos[0].set(((rand() % 10) + 10.0), ((rand() % 10) - 5.0));
@@ -772,11 +778,11 @@ void move_algae() {
 
 	glPixelZoom(0.1, 0.1);
 	glRasterPos2f(algaePos[0].x, algaePos[0].y);
-	pix[2].draw();
+	pix2[2].draw();
 
 	glPixelZoom(0.1, 0.1);
 	glRasterPos2f(algaePos[1].x, algaePos[1].y);
-	pix[2].draw();
+	pix2[2].draw();
 
 	if (algaePos[0].x < -11)
 		algaePos[0].set(((rand() % 10) + 10.0), ((rand() % 10) - 5.0));
@@ -1007,7 +1013,7 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 					turtlePos.set(turtlePos.x, turtlePos.y);
 					waveTimer(0);
 					Timer(0);
-					backgroundTimer(0);
+					//backgroundTimer(0);
 					sharkTimer(0);
 					game_screen();
 					glutPostRedisplay();
@@ -1026,8 +1032,7 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 					Timer(0);
 					waveTimer(0);
 					sharkTimer(0);
-					backgroundTimer(0);
-					fishTimer(0);
+					
 				}
 
 				
@@ -1075,8 +1080,7 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 					paused = false;
 					Timer(0);
 					waveTimer(0);
-					backgroundTimer(0);
-					fishTimer(0);
+					
 					sharkTimer(0);
 				}
 			}
@@ -1364,11 +1368,11 @@ int main(int argc, char* argv[])
 	pix[3].readBMPFile("popup-window4.bmp");
 	pix[4].readBMPFile("game-over-cropped.bmp");
 	pix[5].readBMPFile("popup-window5.bmp");
-	pix[1].readBMPFile("popup_window2.bmp");
-	pix[2].readBMPFile("algae2.bmp"); //401x310
-	pix[3].readBMPFile("bottle3.bmp"); //709x367
-	pix[4].readBMPFile("plasticBag.bmp"); //416X416
-	pix[5].readBMPFile("rings.bmp"); //372*238
+
+	pix2[2].readBMPFile("algae2.bmp"); //401x310
+	pix2[3].readBMPFile("bottle3.bmp"); //709x367
+	pix2[4].readBMPFile("plasticBag.bmp"); //416X416
+	pix2[5].readBMPFile("rings.bmp"); //372*238
 	glutMainLoop();
 	
 }
