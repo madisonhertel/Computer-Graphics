@@ -68,6 +68,7 @@ button continue1 = { -2, -9, 5, 1,0 ,0, continue_1 };
 bool highlight = false;
 //Variable determining if the mainscreen is active
 bool mainscreen_active = true;
+bool gamescreen_active = false; 
 bool instructions_clicked = false;
 bool instructions_screen_gameplay = false;
 //Variables to see if the program has been started or paused
@@ -78,7 +79,9 @@ bool plasticCollisionY = false;
 bool algaeCollisionX = false;
 bool algaeCollisionY = false;
 bool popup_window_active = false; 
-
+bool shark_enter = false; 
+bool popupwindow5 = false;
+bool endpop5 = false;
 //Used for the positions of the turtle, pause, and background
 Point2 pausedPos;
 Point2 pausedScreenPos;
@@ -96,6 +99,7 @@ Point2 plasticPos;
 Point2 plasticSiz;
 Point2 CP;
 Point2 plastic;
+Point2 sharkPos;
 
 float num_fish;
 float value = 0.0;
@@ -104,24 +108,21 @@ float b;
 float c; 
 float d; 
 float e; 
-
+float r =0.369; 
+float g =0.9;
+float color = 0.0;
 //Used for the positions of the turtle, pause, and background
-Point2 turtlePos;
-Point2 seaweedPos1; 
-Point2 seaweedPos2; 
-Point2 pausedPos; 
-Point2 pausedScreenPos;
-Point2 instructionScreenPos;
-Point2 popupwindow1Pos;
-Point2 popupwindow2Pos;
 Point2 popupwindow3Pos;
 Point2 popupwindow4Pos;
-
+Point2 popupwindow5Pos;
 //variable used to generate random values used by the wave drawn on the screen 
 float xrand[9];
-int time = 0;
+int time = 190;
 float health = 3.0;
 
+//Creating pixmap for the popupwindow images
+//Creates 6 different pixmaps that can be used for 24 bit images
+RGBpixmap pix[6];
 //instructions character strings
 extern char instructions2[80];
 extern char instructions3[80];
@@ -211,7 +212,58 @@ void ButtonDraw(button* b)
 
 void game_screen()
 {
-	glClearColor(0.369, 0.90, 1.0, 0.3);
+	gamescreen_active = true;
+
+	if (time > 200 && popupwindow5 == false)
+	{
+		shark_enter = true;
+
+		if (endpop5 == false)
+		{
+			color = color + 0.008;
+
+			r = 0.369 - color; 
+			g = 0.9 - color;
+		}
+		 
+		else if (endpop5 == true)
+		{
+			color = color -0.01 ;
+
+			 r = 0.369 - color; 
+			 g = 0.9 - color;
+
+			if (r > 0.369)
+			{
+				r = 0.369;
+			}
+
+			else if( r < 0.369)
+			{
+				r = 0.369 - color;
+			}
+
+			if (g > 0.9)
+			{
+				g = 0.9;
+			}
+
+			else if (g < 0.9)
+			{
+				g = 0.9 - color;
+			}
+		}
+		sharkTimer(0);
+		printf("%f\n", color);
+	}
+
+	if (sharkPos.x == -8.0)
+	{
+		popupwindow5 = true;
+		shark_enter = false;
+	}
+
+	glClearColor(r, g, 1.0, 0.3);
 	//glClearColor(0.31, 0.520, 0.77, 0.0); //(31%,52%,77%) old (0.369, 0.90, 1.0, 0.0)
 	timer_popupwindow();
 	drawSky(xrand);
@@ -220,6 +272,23 @@ void game_screen()
 	scale2D(1.5, 1.5, 0);
 	translate2D(-5, -4.5);
 	rock();
+	glPopMatrix();
+
+	glPushMatrix();
+	scale2D(2.0, 2.0, 0.0);
+	translate2D(prevPos.x, prevPos.y);
+	shade_fish1();
+	glPopMatrix();
+
+
+	glPushMatrix();
+	translate2D(prevPos2.x, prevPos2.y);
+	shade_fish2();
+	glPopMatrix();
+
+	glPushMatrix();
+	translate2D(sharkPos.x, sharkPos.y);
+	shade_shark();
 	glPopMatrix();
 
 	glPushMatrix();
@@ -250,7 +319,7 @@ void game_screen()
 
 
 
-	drawStrokeText(pause_instruction, -4.0, 9, 0, 160.0);
+	drawStrokeText(pause_instruction, -3.75, 9, 0, 160.0);
 
 	glPushMatrix();
 	translate2D(pausedScreenPos.x, pausedScreenPos.y);
@@ -270,9 +339,6 @@ void game_screen()
 	glVertex2i(-5, 5);
 	glVertex2i(5, 5);
 	glEnd();
-
-
-
 
 	ButtonDraw(&exit_1);
 	ButtonDraw(&instructions_1);
@@ -342,10 +408,15 @@ void game_screen()
 	}
 	popup_window1();
 	popup_window2();
+	popup_window3();
+	popup_window4();
+	popup_window5();
 	//cout << "Health :" << health << "\n\r";
+	
 }
 
-void checkCollision(){
+void checkCollision()
+{
 	plasticCollisionX = plasticPos.x + plasticSiz.x >= (turtlePos.x + 1.5) &&
 		(turtlePos.x + 1.5) + turtleSiz.x >= plasticPos.x;
 
@@ -379,7 +450,8 @@ void drawPlastic() {
 	drawCircle();
 }
 
-void drawCircle() {
+void drawCircle() 
+{
 	
 	Point2* pointlist = new Point2[40];
 	GLfloat theta = (2.0f * 3.1415926536) / 40;
@@ -397,130 +469,18 @@ void drawCircle() {
 
 }
 
-void death() {
-	cout << "YOU DIED!!";
-}
-
-//Creating pixmap for the popupwindow images
-//Creates 6 different pixmaps that can be used for 24 bit images
-RGBpixmap pix[6];
-
-//Draws the game screen once it is called by the display function
-/*void game_screen()
+void death()
 {
-	glClearColor(0.31, 0.520, 0.77, 0.0); //(31%,52%,77%) old (0.369, 0.90, 1.0, 0.0)
-
-	timer_popupwindow();
-	drawSky(xrand);
-	sand();
-
-	drawHealthBar(health);
-	glPushMatrix();
-	translate2D(turtlePos.x , turtlePos.y);
-	scale2D(0.25, 0.25, 0);
-	rotate2D(-22.0);
-	//drawPolyline(turtle_file, 0.23, 0.43, 0.13);
-	shade_turtle();
-	glPopMatrix();
-
-	glPushMatrix();
-	translate2D(seaweedPos1.x, seaweedPos2.y);
-	drawPolyline(seaweed, 0.23, 0.43, 0.13);
-	shade_seaweed();
-	glPopMatrix();
-
-	glPushMatrix();
-	translate2D(seaweedPos2.x, seaweedPos2.y);
-	drawPolyline(seaweed, 0.23, 0.43, 0.13);
-	shade_seaweed();
-	glPopMatrix();
-
-	drawStrokeText(pause_instruction, -4.0, 9, 0, 160.0);
-	
-	glPushMatrix();
-	translate2D(pausedScreenPos.x, pausedScreenPos.y);
-	glColor3f(0.482, 0.788, 0.7647);
-	glBegin(GL_QUADS);
-	glVertex2i(5, 5);
-	glVertex2i(5, -8);
-	glVertex2i(-5, -8);
-	glVertex2i(-5, 5);
-	glEnd();
-
-	glColor3f(0.359, 0.67, 0.647);
-	glBegin(GL_LINE_STRIP);
-	glVertex2i(5, 5);
-	glVertex2i(5, -8);
-	glVertex2i(-5, -8);
-	glVertex2i(-5, 5);
-	glVertex2i(5, 5);
-	glEnd();
-
-	
-
-
+	cout << "YOU DIED!!";
+	paused = true;
+	glPixelZoom(0.75, 0.75);
+	glRasterPos2f(-10, -10);
+	pix[4].draw();
 	ButtonDraw(&exit_1);
-	ButtonDraw(&instructions_1);
-	ButtonDraw(&resume_1);
-
-	drawStrokeText(resume1, -2.0, -0.2, 0, 120.0);
 	drawStrokeText(exit1, -1.0, -6.4, 0, 120.0);
-	drawStrokeText(instructions1, -2.5, -3.25, 0, 120.0);
-	
-
-	glPopMatrix();
-
-	//Instructions screen
-	glPushMatrix();
-	translate2D(instructionScreenPos.x, instructionScreenPos.y);
-	glColor3f(0.482, 0.788, 0.7647);
-	glBegin(GL_QUADS);
-	glVertex2i(8, 5);
-	glVertex2f(8, -9.5);
-	glVertex2f(-8, -9.5);
-	glVertex2i(-8, 5);
-	glEnd();
-
-	glColor3f(0.359, 0.67, 0.647);
-	glBegin(GL_LINE_STRIP);
-	glVertex2i(8, 5);
-	glVertex2f(8, -9.5);
-	glVertex2f(-8, -9.5);
-	glVertex2i(-8, 5);
-	glVertex2i(8, 5);
-	glEnd();
-
-	drawStrokeText(instructions1, -3.5, 3.3, 0, 100.0);
-	drawStrokeText(instructions2, -8.0, 1.8, 0, 190.0);
-	drawStrokeText(instructions3, -8.0, 0.3, 0, 190.0);
-	drawStrokeText(instructions4, -8.0, -1.2, 0, 190.0);
-	drawStrokeText(instructions5, -8.0, -2.7, 0, 190.0);
-	drawStrokeText(instructions6, -8.0, -4.2, 0, 190.0);
-	drawStrokeText(instructions7, -8.0, -5.7, 0, 190.0);
-	drawStrokeText(instructions8, -8.0, -7.2, 0, 190.0);
-
-	ButtonDraw(&back);
-	drawStrokeText(back1, 5.25, -8.75, 0, 190.0);
-	glPopMatrix();
-
-	strcpy_s(pause_text, "PAUSED");
-	glLineWidth(3.0);
-	drawStrokeText(pause_text, pausedPos.x, pausedPos.y, 0, 80.0);
-
-	
-
-	strcpy_s(buffer, "Time: ");
-	glLineWidth(3.0);
-	drawStrokeText(buffer, -9.5, 8.3, 0, 120.0);
-	_itoa_s(time, buffer, 10);
-	drawStrokeText(buffer, -6.5, 8.3, 0, 120.0);
-	//Drawing the popup windows
-	popup_window1();
-	popup_window2();
-	popup_window3();
-	popup_window4();
+	Sleep(10);
 }
-*/
+
 
 //initialize function
 void myinit()
@@ -533,18 +493,7 @@ void myinit()
 	plasticSiz.set(1.2, 0.8);
 	cout << "Initializing \n\r";
 }
-//reshape window function
-/*
-void reshape(int w, int h)
-{
-	glViewport(0, 0, w, h);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluOrtho2D(0, w, h, 0);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-}
-*/
+
 
 //used for selecting different values for the wave 
 static void waveTimer(int value) {
@@ -567,7 +516,8 @@ static void waveTimer(int value) {
 
 //Timer funciton that displays the time elapsed
 static void Timer(int value) {
-	if (start_click == true && !paused) {
+	if (start_click == true && !paused) 
+	{
 		time++;
 		glutTimerFunc(1000, Timer, 0);
 		glutPostRedisplay();
@@ -578,6 +528,7 @@ static void Timer(int value) {
 
 //timer that moves the background position
 static void backgroundTimer(int value){
+
 	if (start_click == true && !paused){
 		seaweedPos1.set(seaweedPos1.x - 0.05, seaweedPos1.y);
 		seaweedPos2.set(seaweedPos2.x - 0.05, seaweedPos2.y);
@@ -585,6 +536,37 @@ static void backgroundTimer(int value){
 		glutPostRedisplay();
 		glutTimerFunc(400, backgroundTimer, 0);
 	}
+	
+}
+
+static void fishTimer(int value)
+{
+	a = prevPos2.x;
+	if (!paused && (mainscreen_active == true || gamescreen_active== true))
+	{
+		if (a > 11.0)
+		{
+			prevPos.set(-12, 2);
+			prevPos2.set(-11, 2);
+		}
+		prevPos.set(prevPos.x + 0.04, prevPos.y);
+		prevPos2.set(prevPos2.x + 0.03, prevPos2.y);
+
+		glutPostRedisplay();
+		glutTimerFunc(10, fishTimer, 0);
+	}
+
+}
+
+static void sharkTimer(int value)
+{
+		if (gamescreen_active == true && !paused && shark_enter == true)
+		{
+				sharkPos.set(sharkPos.x + 0.001, sharkPos.y);
+				glutPostRedisplay();
+				glutTimerFunc(10, sharkTimer, 0);
+			
+		}
 	
 }
 
@@ -596,8 +578,9 @@ void render(void)
 	glOrtho(-10, 10, -10, 10, -1, 1);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	if (mainscreen_active == true) {
-		main_screen();
+	if (mainscreen_active == true) 
+	{
+		move_fish();
 	}
 
 	else if (start_click == true) {
@@ -667,19 +650,10 @@ void main_screen()
 
 	glPushMatrix();
 	b = prevPos1.x + 0.008;
-	if (a < -10)
-	{
-		c = 0;
-	}
-
-	else if (a > -5)
-	{
-		c = prevPos1.y + 0.01;
-	}
+	c = prevPos1.y + rand() % 2;
 	//Draws a bubble on the screen
 	translate2D(b, c);
-	bubbles(0.1f);
-
+	bubbles(0.9f);
 	glPopMatrix();
 	prevPos1.set(b, c);
 
@@ -697,24 +671,31 @@ void main_screen()
 //This function draws fish that swim across the screen on a loop
 void move_fish()
 {
+	
 	//glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0.369, 0.90, 1.0, 0.3);
 	
 	//printf("Drawing background\n");
 	sand();
-	main_screen();
-		
-	printf("move fish\n");
-	a = prevPos.x + 0.015;
+	if (mainscreen_active == true)
+	{
+		main_screen();
+	}
+
+	else if (gamescreen_active == true)
+	{
+		game_screen();
+	}
+	
 	glPushMatrix();
 	scale2D(2.0, 2.0, 0.0);
-	translate2D(a, 0.0);
+	translate2D(prevPos.x, prevPos.y);
 	shade_fish1();
 	glPopMatrix();
 
-	e = prevPos2.x + 0.025; 
+	
 	glPushMatrix();
-	translate2D(e, 0.0);
+	translate2D(prevPos2.x, prevPos2.y);
 	shade_fish2();
 	glPopMatrix();
 
@@ -722,19 +703,7 @@ void move_fish()
 	{
 		glutPostRedisplay();
 	}
-		
-	if (a < 11.0)
-	{
-		prevPos.set(a, 0.0);
-		prevPos2.set(e, 0.0);
-	}
-
-		else if (a > 11.0)
-		{
-			prevPos.set(-12, 3);
-			prevPos2.set(-11, 3);
-		}
-		
+				
 }
 	
 //Moves the turtle character	
@@ -959,10 +928,12 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 					mainscreen_active = false;
 					turtlePos.set(turtlePos.x, turtlePos.y);
 					//backgroundTimer(0);
+					fishTimer(0);
 					waveTimer(0);
 					Timer(0);
-					//backgroundTimer(0);
-					//game_screen();
+					backgroundTimer(0);
+					sharkTimer(0);
+					game_screen();
 					glutPostRedisplay();
 				}
 			}
@@ -978,7 +949,9 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 					cout << "unpause \n\r";
 					Timer(0);
 					waveTimer(0);
+					sharkTimer(0);
 					backgroundTimer(0);
+					fishTimer(0);
 				}
 
 				
@@ -1022,10 +995,13 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 					popupwindow2Pos.set(20, 0);
 					popupwindow3Pos.set(20, 0);
 					popupwindow4Pos.set(20, 0);
+					popupwindow5Pos.set(20, 0);
 					paused = false;
 					Timer(0);
 					waveTimer(0);
 					backgroundTimer(0);
+					fishTimer(0);
+					sharkTimer(0);
 				}
 			}
 		}
@@ -1166,6 +1142,42 @@ void popup_window4()
 
 
 }
+
+void popup_window5()
+{
+
+	glPushMatrix();
+	translate2D(popupwindow5Pos.x, popupwindow5Pos.y);
+	glColor3f(0.482, 0.788, 0.7647);
+	glBegin(GL_QUADS);
+	glVertex2f(7, 9.5);
+	glVertex2f(7, -9.5);
+	glVertex2f(-7, -9.5);
+	glVertex2f(-7, 9.5);
+	glEnd();
+
+	glColor3f(0.359, 0.67, 0.647);
+	glBegin(GL_LINE_STRIP);
+	glVertex2f(7, 9.5);
+	glVertex2f(7, -9.5);
+	glVertex2f(-7, -9.5);
+	glVertex2f(-7, 9.5);
+	glVertex2f(7, 9.5);
+	glEnd();
+
+	glPixelZoom(0.4, 0.4);
+	glRasterPos2f(-5.3, -7.25);
+	pix[5].draw();
+
+	//Drawing the button for the popup window
+	ButtonDraw(&continue1);
+	drawStrokeText(continue_1, -0.8, -8.75, 0, 190.0);
+
+	glPopMatrix();
+
+
+}
+
 void timer_popupwindow()
 {
 	if (time < 10)
@@ -1219,6 +1231,25 @@ void timer_popupwindow()
 		Sleep(10);
 	}
 
+	else if (time == 205)
+	{
+		popupwindow2Pos.set(20, 0);
+		popupwindow1Pos.set(20, 0);
+		popupwindow5Pos.set(0, 0);
+		popup_window_active = true;
+		endpop5 = true;
+		paused = true;
+	
+		sharkPos.set(30, 0);
+		glutPostRedisplay();
+		Sleep(10);
+	}
+
+	else if (time == 300)
+	{
+		death();
+	}
+
 	else if (time == 150)
 	{
 		popupwindow2Pos.set(20, 0);
@@ -1253,10 +1284,12 @@ int main(int argc, char* argv[])
 	myinit();
 
 	//setting inital positions for the point2 class variables
-	prevPos.set(-12, 3);
-	prevPos2.set(-11, 3);
+	prevPos.set(-12, 2);
+	prevPos1.set(-5, -11);
+	prevPos2.set(-11, 2);
 	seaweedPos1.set(-12, -9);
 	seaweedPos2.set(5, -9);
+	sharkPos.set(-21, 0);
 	pausedPos.set(12, 0);
 	pausedScreenPos.set(15, 0);
 	instructionScreenPos.set(20, 0);
@@ -1264,13 +1297,15 @@ int main(int argc, char* argv[])
 	popupwindow2Pos.set(20, 0);
 	popupwindow3Pos.set(20, 0);
 	popupwindow4Pos.set(20, 0);
-
+	popupwindow5Pos.set(20, 0);
+	fishTimer(0);
 	//reading in the bitmap file for the popup windows
 	pix[0].readBMPFile("popup_window1.bmp");
 	pix[1].readBMPFile("popup-window2.bmp");
 	pix[2].readBMPFile("popup-window3.bmp");
 	pix[3].readBMPFile("popup-window4.bmp");
-
+	pix[4].readBMPFile("game-over-cropped.bmp");
+	pix[5].readBMPFile("popup-window5.bmp");
 	glutMainLoop();
 	
 }

@@ -26,9 +26,9 @@ void instructions_test()
 	strcpy_s(instructions2, "1. Use the arrow keys to move the turtle");
 	strcpy_s(instructions3, "2. Eat the pieces of algae for your health");
 	strcpy_s(instructions4, "3. Avoid the pieces of plastic in the ocean");
-	strcpy_s(instructions5, "4. Avoid predators such as sharks");
-	strcpy_s(instructions6, "5. Eating plastic will decrease your health");
-	strcpy_s(instructions7, "6. You have 3 attempts to make it home");
+	strcpy_s(instructions5, "4. Eating plastic will decrease your health");
+	strcpy_s(instructions6, "5. Avoid predators such as sharks");
+	strcpy_s(instructions7, "6. You have 1 attempt to finish the game");
 	strcpy_s(instructions8, "7. Press P at anytime to pause the game");
 	strcpy_s(instructions9, "Press B to return to the main screen");
 	drawStrokeText(instructions1, -4.75, 8.0, 0, 80.0);
