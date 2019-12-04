@@ -20,7 +20,7 @@ char instructions7[80];
 char instructions8[80];
 char instructions9[80];
 
-void instructions_test()
+void instructions_screen()
 {
 	
 	strcpy_s(instructions2, "1. Use the arrow keys to move the turtle");
