@@ -14,6 +14,7 @@ using namespace std;
 extern char turtle_file[20];
 extern char seaweed[20];
 extern float xrand[9];
+extern bool paused; 
 //int health = 1; 
 float a1; 
 float b1; 
@@ -33,7 +34,27 @@ public:
 Point3 prevPos1;
 Point3 prevPos2; 
 
+void popup_pause()
+{
+	if (paused == true)
+	{
+		printf("POPUP!!!\n");
+		glColor4f(1.0, 0.0, 0.0, 0.0);
+		glBegin(GL_POLYGON);
+		glVertex2i(-3, 3);
+		glVertex2i(3, 3);
+		glVertex2i(3, -3);
+		glVertex2i(-3, -3);
 
+		glEnd();
+		glutSwapBuffers();
+	}
+
+	else if (paused == false)
+	{
+
+	}
+}
 
 void move_background()
 {
