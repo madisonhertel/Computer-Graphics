@@ -31,8 +31,8 @@ public:
 	Point3(float xx, float yy) { x = xx; y = yy; }
 	Point3() { x = y = 0; }
 };
-Point3 prevPos1;
-Point3 prevPos2; 
+Point3 bubblePos;
+Point3 fishPos2; 
 
 void popup_pause()
 {
@@ -68,10 +68,10 @@ void move_background()
 
 		glPushMatrix();
 
-		a1 = prevPos1.x - 0.005;
-		b1 = prevPos1.y;
-		c1 = prevPos2.x - 0.005;
-		d1 = prevPos2.y;
+		a1 = bubblePos.x - 0.005;
+		b1 = bubblePos.y;
+		c1 = fishPos2.x - 0.005;
+		d1 = fishPos2.y;
 
 		translate2D(a1, b1);
 		drawPolyline(seaweed, 0.23, 0.43, 0.13);
@@ -82,8 +82,8 @@ void move_background()
 		drawPolyline(seaweed, 0.23, 0.43, 0.13);
 		shade_seaweed();
 		glPopMatrix();
-		prevPos1.set(a1, b1);
-		prevPos2.set(c1, d1);
+		bubblePos.set(a1, b1);
+		fishPos2.set(c1, d1);
 		glPushMatrix();
 		translate2D(-8, -5);
 		scale2D(0.3, 0.3, 0);
