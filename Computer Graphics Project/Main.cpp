@@ -96,6 +96,8 @@ Point2 pausedScreenPos;
 Point2 instructionScreenPos;
 Point2 popupwindow1Pos;
 Point2 popupwindow2Pos;
+Point2 popupwindow3Pos;
+Point2 popupwindow4Pos;
 
 //variable used to generate random values used by the wave drawn on the screen 
 float xrand[9];
@@ -285,6 +287,8 @@ void game_screen()
 	//Drawing the popup windows
 	popup_window1();
 	popup_window2();
+	popup_window3();
+	popup_window4();
 }
 
 
@@ -785,6 +789,8 @@ void mouse_click(int button, int state, int mouseX, int mouseY)
 					popup_window_active == false; 
 					popupwindow1Pos.set(20, 0);
 					popupwindow2Pos.set(20, 0);
+					popupwindow3Pos.set(20, 0);
+					popupwindow4Pos.set(20, 0);
 					paused = false;
 					Timer(0);
 					waveTimer(0);
@@ -864,18 +870,87 @@ void popup_window2()
 	glPopMatrix();
 }
 
+void popup_window3()
+{
+	glPushMatrix();
+	translate2D(popupwindow3Pos.x, popupwindow3Pos.y);
+	glColor3f(0.482, 0.788, 0.7647);
+	glBegin(GL_QUADS);
+	glVertex2f(7, 9.5);
+	glVertex2f(7, -9.5);
+	glVertex2f(-7, -9.5);
+	glVertex2f(-7, 9.5);
+	glEnd();
+
+	glColor3f(0.359, 0.67, 0.647);
+	glBegin(GL_LINE_STRIP);
+	glVertex2f(7, 9.5);
+	glVertex2f(7, -9.5);
+	glVertex2f(-7, -9.5);
+	glVertex2f(-7, 9.5);
+	glVertex2f(7, 9.5);
+	glEnd();
+
+	glPixelZoom(0.4, 0.4);
+	glRasterPos2f(-5.3, -7.25);
+	pix[2].draw();
+
+	//Drawing the button for the popup window
+	ButtonDraw(&continue1);
+	drawStrokeText(continue_1, -0.8, -8.75, 0, 190.0);
+
+	glPopMatrix();
+}
+void popup_window4()
+{
+
+	glPushMatrix();
+	translate2D(popupwindow4Pos.x, popupwindow4Pos.y);
+	glColor3f(0.482, 0.788, 0.7647);
+	glBegin(GL_QUADS);
+	glVertex2f(7, 9.5);
+	glVertex2f(7, -9.5);
+	glVertex2f(-7, -9.5);
+	glVertex2f(-7, 9.5);
+	glEnd();
+
+	glColor3f(0.359, 0.67, 0.647);
+	glBegin(GL_LINE_STRIP);
+	glVertex2f(7, 9.5);
+	glVertex2f(7, -9.5);
+	glVertex2f(-7, -9.5);
+	glVertex2f(-7, 9.5);
+	glVertex2f(7, 9.5);
+	glEnd();
+
+	glPixelZoom(0.4, 0.4);
+	glRasterPos2f(-5.3, -7.25);
+	pix[3].draw();
+
+	//Drawing the button for the popup window
+	ButtonDraw(&continue1);
+	drawStrokeText(continue_1, -0.8, -8.75, 0, 190.0);
+
+	glPopMatrix();
+
+
+}
 void timer_popupwindow()
 {
 	if (time < 10)
 	{
 		popupwindow1Pos.set(20, 0);
 		popupwindow2Pos.set(20, 0);
+		popupwindow3Pos.set(20, 0);
+		popupwindow4Pos.set(20, 0);
 	}
 
 	if (time == 10)
 	{
 		popupwindow1Pos.set(0, 0);
 		popupwindow2Pos.set(20, 0);
+		popupwindow4Pos.set(20, 0);
+		popupwindow3Pos.set(20, 0);
 		popup_window_active = true;
 		paused = true;
 				
@@ -898,6 +973,29 @@ void timer_popupwindow()
 		popup_window_active = true;
 		paused = true;
 
+		glutPostRedisplay();
+		Sleep(10);
+	}
+
+	else if (time == 90)
+	{
+		popupwindow2Pos.set(20, 0);
+		popupwindow1Pos.set(20, 0);
+		popupwindow3Pos.set(0, 0);
+		popup_window_active = true;
+		paused = true;
+		glutPostRedisplay();
+		Sleep(10);
+	}
+
+	else if (time == 150)
+	{
+		popupwindow2Pos.set(20, 0);
+		popupwindow1Pos.set(20, 0);
+		popupwindow3Pos.set(20, 0);
+		popupwindow4Pos.set(0, 0);
+		popup_window_active = true;
+		paused = true;
 		glutPostRedisplay();
 		Sleep(10);
 	}
@@ -934,10 +1032,14 @@ int main(int argc, char* argv[])
 	instructionScreenPos.set(20, 0);
 	popupwindow1Pos.set(20, 0);
 	popupwindow2Pos.set(20, 0);
+	popupwindow3Pos.set(20, 0);
+	popupwindow4Pos.set(20, 0);
 
 	//reading in the bitmap file for the popup windows
 	pix[0].readBMPFile("popup_window1.bmp");
-	pix[1].readBMPFile("popup_window2.bmp");
+	pix[1].readBMPFile("popup-window2.bmp");
+	pix[2].readBMPFile("popup-window3.bmp");
+	pix[3].readBMPFile("popup-window4.bmp");
 
 	glutMainLoop();
 	

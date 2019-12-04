@@ -12,6 +12,8 @@ extern char health1[10];
 using namespace std;
 
 void timer_popupwindow();
+void popup_window3();
+void popup_window4();
 void popup_window2();
 void popup_window1();
 void instructions_test();
