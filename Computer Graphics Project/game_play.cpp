@@ -21,7 +21,7 @@ float b1;
 float c1;
 float d1;
 int i = 0;
-//int health = 1;
+
 class Point3
 {
 public:
@@ -91,7 +91,7 @@ void move_background()
 		drawPolyline(turtle_file, 0.23, 0.43, 0.13);
 		shade_turtle();
 		glPopMatrix();
-		glutSwapBuffers();
+		//glutSwapBuffers();
 	
 
 }
