@@ -15,6 +15,8 @@ void timer_popupwindow();
 void popup_window3();
 void popup_window4();
 void popup_window5();
+void fish_3();
+void nemo();
 void popup_window2();
 static void sharkTimer(int value);
 void popup_window1();
